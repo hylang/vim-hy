@@ -13,7 +13,7 @@ endif
 " hy version 0.9.8
 syntax keyword hyConstant null
 syntax keyword hyBoolean false true
-syntax keyword hySpecial . except def do finally fn if let quote try
+syntax keyword hySpecial . except def do finally fn if let quote try with
 syntax keyword hyException except finally throw try
 syntax keyword hyCond cond when
 syntax keyword hyRepeat while
