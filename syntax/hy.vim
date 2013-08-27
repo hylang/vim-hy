@@ -2,7 +2,8 @@
 " Language:     hy
 " License:      TODO
 " Authors:      Morten Linderud <mcfoxax@gmail.com>
-" URL:          http://github.com/Foxboron
+"               Alejandro Gómez <alejandro@dialelo.com>
+" URL:          http://github.com/hylang/vim-hy
 "
 " Modified version of the clojure syntax file: https://github.com/guns/vim-clojure-static/blob/master/syntax/clojure.vim
 if exists("b:current_syntax")
