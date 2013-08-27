@@ -1,5 +1,6 @@
 " Vim syntax file
 " Language:     hy
+" License:      TODO
 " Authors:      Morten Linderud <mcfoxax@gmail.com>
 " URL:          http://github.com/Foxboron
 "
