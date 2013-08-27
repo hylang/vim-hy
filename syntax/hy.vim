@@ -1,6 +1,6 @@
 " Vim syntax file
 " Language:     hy
-" License:      TODO
+" License:      Same as VIM
 " Authors:      Morten Linderud <mcfoxax@gmail.com>
 "               Alejandro Gómez <alejandro@dialelo.com>
 " URL:          http://github.com/hylang/vim-hy
