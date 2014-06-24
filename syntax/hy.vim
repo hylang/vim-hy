@@ -10,17 +10,18 @@ if exists("b:current_syntax")
     finish
 endif
 
-" hy version 0.9.8
-syntax keyword hyConstant null
+" hy version 0.10.0
+syntax keyword hyConstant null nil
 syntax keyword hyBoolean false true
-syntax keyword hySpecial . except def do finally fn if let quote try with with-decorator
-syntax keyword hyException except finally throw try
-syntax keyword hyCond cond when
-syntax keyword hyRepeat while
-syntax keyword hyDefine defmacro defclass defn defmain
-syntax keyword hyMacro -> ->> .. and assert for import or
-syntax keyword hyFunc * + - / < <= = == > >=  setv setf isinstance instance? assoc atom bool bytes break char char? class class? continue eval even? false? first flatten float format int iterate list macroexpand map max methods mod name namespace next not != nth partial pop print range read reduce remove replace secondsorted split str type zip
-syntax keyword hyVariable string
+syntax keyword hySpecial macro-error defmacro-alias let if-python2 def setv fn lambda
+syntax keyword hyException throw raise try except catch
+syntax keyword hyCond cond if-not lisp-if lif when unless
+syntax keyword hyRepeat loop for* while
+syntax keyword hyDefine defmacro/g! defmain defn-alias defun-alias defmulti defnc defclass defmacro defreader defn defun
+syntax keyword hyMacro for with car cdr -> ->> with-gensyms ap-if ap-each ap-each-while ap-map ap-map-when ap-filter ap-reject ap-dotimes ap-first ap-last ap-reduce defnc fnc fnr route-with-methods route post-route put-route delete-route profile/calls profile/cpu walk postwalk prewalk macroexpand-all
+syntax keyword hyFunc curry --trampoline-- recursive-replace _numeric-check coll? cons cons? keyword? dec disassemble distinct drop empty? even? every? fake-source-positions flatten _flatten float? gensym calling-module-name first identity inc instance? integer integer? integer-char? iterable? iterate iterator? list* macroexpand macroexpand-1 neg? none? nil? numeric? nth odd? pos? remove rest repeatedly second some string string? take take-nth zero? list quote quasiquote unquote unquote-splicing eval do progn if break continue assert global yield yield-from from import get . del slice assoc with-decorator with* , list-comp set-comp dict-comp genexpr apply not ~ require and or = != < <= > >= is in is-not not-in % / // ** << >> | ^ & + * - += /= //= *= -= %= **= <<= >>= |= ^= &= HyExpression HyList dispatch-reader-macro eval-and-compile eval-when-compile HyCons HyInteger HyFloat HyComplex HySymbol HyString HyKeyword
+syntax keyword hyVariable
+
 
 " Keywords are symbols:
 "   static Pattern symbolPat = Pattern.compile("[:]?([\\D&&[^/]].*/)?([\\D&&[^/]][^/]*)");
