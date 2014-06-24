@@ -13,11 +13,11 @@ endif
 " hy version 0.9.8
 syntax keyword hyConstant null
 syntax keyword hyBoolean false true
-syntax keyword hySpecial . except def do finally fn if let quote try with
+syntax keyword hySpecial . except def do finally fn if let quote try with with-decorator
 syntax keyword hyException except finally throw try
 syntax keyword hyCond cond when
 syntax keyword hyRepeat while
-syntax keyword hyDefine defmacro defclass defn
+syntax keyword hyDefine defmacro defclass defn defmain
 syntax keyword hyMacro -> ->> .. and assert for import or
 syntax keyword hyFunc * + - / < <= = == > >=  setv setf isinstance instance? assoc atom bool bytes break char char? class class? continue eval even? false? first flatten float format int iterate list macroexpand map max methods mod name namespace next not != nth partial pop print range read reduce remove replace secondsorted split str type zip
 syntax keyword hyVariable string
