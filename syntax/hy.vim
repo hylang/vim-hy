@@ -10,6 +10,7 @@ if exists("b:current_syntax")
     finish
 endif
 
+
 " hy version 0.10.0
 syntax keyword hyConstant null nil
 syntax keyword hyBoolean false true
