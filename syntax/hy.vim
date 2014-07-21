@@ -108,7 +108,7 @@ syntax region hyRegexp start=/\#"/ skip=/\\\\\|\\"/ end=/"/ contains=@hyRegexpCh
 syntax keyword hyCommentTodo contained FIXME XXX TODO FIXME: XXX: TODO:
 
 syntax match hyComment ";.*$" contains=hyCommentTodo,@Spell
-syntax match hyComment "#!.*$"
+syntax match hyComment "\%^#!.*$"
 
 syntax region hySexp   matchgroup=hyParen start="("  matchgroup=hyParen end=")"  contains=TOP,@Spell
 syntax region hyVector matchgroup=hyParen start="\[" matchgroup=hyParen end="\]" contains=TOP,@Spell
