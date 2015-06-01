@@ -61,7 +61,7 @@ setlocal lispwords+=iterable?,iterate,iterator?,keyword?,list,list*,list-comp
 setlocal lispwords+=macroexpand,macroexpand-1,neg?,nil?,none?,not,not-in,nth
 setlocal lispwords+=numeric?,odd?,or,pos?,progn,quasiquote,quote
 setlocal lispwords+=recursive-replace,remove,repeatedly,require,rest,second
-setlocal lispwords+=set-comp,setlocal,lispwords+=,slice,some,string,string?
+setlocal lispwords+=set-comp,slice,some,string,string?
 setlocal lispwords+=take,take-nth,unquote,unquote-splicing,with*,with-decorator
 setlocal lispwords+=yield,yield-from,zero?,\|=,~,\|
 
