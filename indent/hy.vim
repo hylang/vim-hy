@@ -14,10 +14,8 @@ endif
 let b:did_indent = 1
 let b:undo_indent = "setl ai< si< et< lw< lisp<"
 
-setlocal ai nosi
-setlocal et
-
-setlocal lisp
+setlocal ai nosi nolisp
+setlocal softtabstop=2 shiftwidth=2 expandtab
 
 " hyConstant
 setlocal lispwords+=null,nil
@@ -66,3 +64,22 @@ setlocal lispwords+=recursive-replace,remove,repeatedly,require,rest,second
 setlocal lispwords+=set-comp,setlocal,lispwords+=,slice,some,string,string?
 setlocal lispwords+=take,take-nth,unquote,unquote-splicing,with*,with-decorator
 setlocal lispwords+=yield,yield-from,zero?,\|=,~,\|
+
+function! HyIndent()
+	let p = getpos(".")
+	let [lnum, lcol] = searchpairpos('{', '', '}', 'b')
+	call cursor(p[1], p[2])
+	if lnum != 0 && lcol != 0 && lnum < line(".")
+		return lcol
+	endif
+
+	let [lnum, lcol] = searchpairpos('\[', '', '\]', 'b')
+	call cursor(p[1], p[2])
+	if lnum != 0 && lcol != 0 && lnum < line(".")
+		return lcol
+	endif
+
+	return lispindent(".")
+endfunction
+
+setlocal indentexpr=HyIndent()
