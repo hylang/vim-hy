@@ -1,8 +1,8 @@
 " Vim indent file
-" Language:	   Hy
-" Maintainer:	Gregor Best <gbe@unobtanium.de>
-" URL:		   https://github.com/farhaven/vim-hy
-" Last Change:	2014 Jun 24
+" Language:    Hy
+" Maintainer:  Gregor Best <gbe@unobtanium.de>
+" URL:         https://github.com/hylang/vim-hy
+" Last Change: 2015 Jun 01
 "
 " Based on the Lisp indent file by Sergey Khorev (<sergey.khorev@gmail.com>), 
 " http://sites.google.com/site/khorser/opensource/vim
