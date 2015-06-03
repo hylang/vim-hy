@@ -67,30 +67,48 @@ setlocal lispwords+=set-comp,slice,some,string,string?
 setlocal lispwords+=take,take-nth,unquote,unquote-splicing,with*,with-decorator
 setlocal lispwords+=yield,yield-from,zero?,\|=,~,\|
 
+function! s:PrevPair(begin, end, here)
+	call cursor(a:here, 0)
+	return searchpairpos(a:begin, '', a:end, 'b')
+endfunction
+
+function! s:Compare(i1, i2)
+	return a:i1[3] - a:i2[3]
+endfunction
+
 function! HyIndent(lnum)
 	if a:lnum == 0
 		return 0
 	endif
 
-	call cursor(a:lnum)
-	let [lnum, lcol] = searchpairpos('{', '', '}', 'b')
-	if !(lnum == 0 && lcol == 0) && lnum < a:lnum
-		return lcol
+	let braces = s:PrevPair('{', '}', a:lnum)
+	let brackets = s:PrevPair('\[', '\]', a:lnum)
+	let parens = s:PrevPair('(', ')', a:lnum)
+
+	let braces = braces + [ "braces", abs(braces[0] - a:lnum)]
+	let brackets = brackets + [ "brackets", abs(brackets[0] - a:lnum)]
+	let parens = parens + [ "parens", abs(parens[0] - a:lnum)]
+
+	let l = [braces, brackets, parens]
+	echo l
+	call filter(l, '!(v:val[0] == 0 && v:val[1] == 0)')
+	let l = sort(l, "s:Compare")
+
+	echo l
+
+	if len(l) == 0
+		echo "Doing normal lisp indent"
+		return lispindent(a:lnum)
 	endif
 
-	call cursor(a:lnum)
-	let [lnum, lcol] = searchpairpos('\[', '', '\]', 'b')
-	if !(lnum == 0 && lcol == 0) && lnum < a:lnum
-		return lcol
+	if l[0][2] == "parens"
+		echo "Using parens as guideline, lispindenting to " (l[0][0] + 1)
+		return lispindent(l[0][0] + 1)
+		" return l[0][1] + 1
 	endif
 
-	call cursor(a:lnum)
-	let [lnum, lcol] = searchpairpos('(', '', ')', 'b')
-	if !(lnum == 0 && lcol == 0) && lnum < a:lnum
-		return lispindent(lnum + 1)
-	endif
-
-	return lispindent(a:lnum)
+	echo "Indenting to " l[0][1]
+	return l[0][1]
 endfunction
 
 setlocal indentexpr=HyIndent(v:lnum)
