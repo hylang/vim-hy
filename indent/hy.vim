@@ -74,14 +74,20 @@ function! HyIndent(lnum)
 
 	call cursor(a:lnum)
 	let [lnum, lcol] = searchpairpos('{', '', '}', 'b')
-	if lnum != 0 && lcol != 0 && lnum < a:lnum
+	if !(lnum == 0 && lcol == 0) && lnum < a:lnum
 		return lcol
 	endif
 
 	call cursor(a:lnum)
 	let [lnum, lcol] = searchpairpos('\[', '', '\]', 'b')
-	if lnum != 0 && lcol != 0 && lnum < a:lnum
+	if !(lnum == 0 && lcol == 0) && lnum < a:lnum
 		return lcol
+	endif
+
+	call cursor(a:lnum)
+	let [lnum, lcol] = searchpairpos('(', '', ')', 'b')
+	if !(lnum == 0 && lcol == 0) && lnum < a:lnum
+		return lispindent(lnum + 1)
 	endif
 
 	return lispindent(a:lnum)
