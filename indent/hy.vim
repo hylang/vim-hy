@@ -17,6 +17,8 @@ let b:undo_indent = "setl ai< si< et< lw< lisp<"
 setlocal ai nosi nolisp
 setlocal softtabstop=2 shiftwidth=2 expandtab
 
+setlocal iskeyword+=-,?,!,=,>,*,/,.
+
 " hyConstant
 setlocal lispwords+=null,nil
 
@@ -65,21 +67,24 @@ setlocal lispwords+=set-comp,slice,some,string,string?
 setlocal lispwords+=take,take-nth,unquote,unquote-splicing,with*,with-decorator
 setlocal lispwords+=yield,yield-from,zero?,\|=,~,\|
 
-function! HyIndent()
-	let p = getpos(".")
+function! HyIndent(lnum)
+	if a:lnum == 0
+		return 0
+	endif
+
+	call cursor(a:lnum)
 	let [lnum, lcol] = searchpairpos('{', '', '}', 'b')
-	call cursor(p[1], p[2])
-	if lnum != 0 && lcol != 0 && lnum < line(".")
+	if lnum != 0 && lcol != 0 && lnum < a:lnum
 		return lcol
 	endif
 
+	call cursor(a:lnum)
 	let [lnum, lcol] = searchpairpos('\[', '', '\]', 'b')
-	call cursor(p[1], p[2])
-	if lnum != 0 && lcol != 0 && lnum < line(".")
+	if lnum != 0 && lcol != 0 && lnum < a:lnum
 		return lcol
 	endif
 
-	return lispindent(".")
+	return lispindent(a:lnum)
 endfunction
 
-setlocal indentexpr=HyIndent()
+setlocal indentexpr=HyIndent(v:lnum)
