@@ -78,8 +78,8 @@ endfunction
 
 function! s:FirstWord(pos)
 	call cursor(a:pos[0], a:pos[1] + 1)
-	let delim = searchpos('[ (\[\{]', 'n', a:pos[0])
-	return getline(a:pos[0])[a:pos[1]:delim[1]-2]
+	let delim = searchpos('[ \t(\[\{]', 'n', a:pos[0])
+	return substitute(getline(a:pos[0])[a:pos[1]:delim[1]-1], '^\s*\(.\{-}\)\s*$', '\1', '')
 endfunction
 
 function! HyIndent(lnum)
