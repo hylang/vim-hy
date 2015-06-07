@@ -76,6 +76,12 @@ function! s:Compare(i1, i2)
 	return a:i1[3] - a:i2[3]
 endfunction
 
+function! s:FirstWord(pos)
+	call cursor(a:pos[0], a:pos[1] + 1)
+	let delim = searchpos('[ (\[\{]', 'n', a:pos[0])
+	return getline(a:pos[0])[a:pos[1]:delim[1]-2]
+endfunction
+
 function! HyIndent(lnum)
 	if a:lnum == 0
 		return 0
@@ -90,24 +96,22 @@ function! HyIndent(lnum)
 	let parens = parens + [ "parens", abs(parens[0] - a:lnum)]
 
 	let l = [braces, brackets, parens]
-	echo l
-	call filter(l, '!(v:val[0] == 0 && v:val[1] == 0)')
+	call filter(l, '!(v:val[0] == 0 && v:val[1] == 0) && v:val[0] < + a:lnum')
 	let l = sort(l, "s:Compare")
 
-	echo l
-
 	if len(l) == 0
-		echo "Doing normal lisp indent"
-		return lispindent(a:lnum)
+		" This means we're at the top level
+		return 0
 	endif
 
 	if l[0][2] == "parens"
-		echo "Using parens as guideline, lispindenting to " (l[0][0] + 1)
-		return lispindent(l[0][0] + 1)
-		" return l[0][1] + 1
+		let w = s:FirstWord([l[0][0], l[0][1]])
+		if &lispwords =~# '\V\<' . w . '\>'
+			return l[0][1] + &shiftwidth - 1
+		endif
+		return l[0][1] + len(w) + 1
 	endif
 
-	echo "Indenting to " l[0][1]
 	return l[0][1]
 endfunction
 
