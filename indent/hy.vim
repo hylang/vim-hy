@@ -73,6 +73,9 @@ function! s:PrevPair(begin, end, here)
 endfunction
 
 function! s:Compare(i1, i2)
+	if a:i1[3] == a:i2[3]
+		return a:i2[1] - a:i1[1]
+	endif
 	return a:i1[3] - a:i2[3]
 endfunction
 
