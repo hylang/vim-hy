@@ -80,10 +80,21 @@ function! s:Compare(i1, i2)
 	return a:i1[3] - a:i2[3]
 endfunction
 
+python << PYEOFA
+import vim
+import re
+PYEOFA
+
 function! s:FirstWord(pos)
-	call cursor(a:pos[0], a:pos[1] + 1)
-	let delim = searchpos('[ \t(\[\{]', 'n', a:pos[0])
-	return substitute(getline(a:pos[0])[a:pos[1]:delim[1]-1], '^\s*\(.\{-}\)\s*$', '\1', '')
+	python << PYEOFB
+p = list(map(int, vim.eval("a:pos")))
+f = vim.Function("getline")
+l = f(p[0])[p[1]:]
+l = re.split('\s+', l, 1)
+l = l[0].strip()
+vim.command("let l='{}'".format(l))
+PYEOFB
+	return l
 endfunction
 
 function! HyIndent(lnum)
