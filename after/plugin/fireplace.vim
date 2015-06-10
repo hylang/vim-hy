@@ -7,6 +7,7 @@ augroup END
 
 function! s:set_up_eval() abort
 	command! -buffer -bang -range=0 -nargs=? Eval :exe s:Eval(<bang>0, <line1>, <line2>, <count>, <q-args>)
+	command! -buffer -bar -nargs=1 -complete=customlist,fireplace#eval_complete Doc     :exe s:Doc(<q-args>)
 
 	nmap <buffer> cp <Plug>FireplacePrint
 	nmap <buffer> cpp <Plug>FireplaceCountPrint
@@ -17,6 +18,8 @@ function! s:set_up_eval() abort
 	nmap <buffer> cqp <Plug>FireplacePrompt
 
 	map! <buffer> <C-R>( <Plug>FireplaceRecall
+
+	nmap <buffer> K <Plug>FireplaceK
 endfunction
 
 if !exists('s:qffiles')
@@ -107,3 +110,24 @@ endfunction
 augroup fireplace_bindings
 	autocmd FileType hy call s:set_up_eval()
 augroup END
+
+function! s:Doc(symbol) abort
+	let info = fireplace#info(a:symbol)
+	if has_key(info, 'ns') && has_key(info, 'name')
+		echo info.ns . ' ' . info.name
+	elseif has_key(info, "name")
+		echo info.name
+	endif
+	if get(info, 'arglists-str', 'nil') !=# 'nil'
+		echo info['arglists-str']
+	endif
+	if !empty(get(info, 'doc', ''))
+		echo "\n" . info.doc
+	endif
+	return ''
+endfunction
+
+function! s:K() abort
+	let word = expand('<cword>')
+	return 'Doc '.word
+endfunction
