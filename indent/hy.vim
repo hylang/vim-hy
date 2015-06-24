@@ -68,66 +68,16 @@ setlocal lispwords+=set-comp,slice,some,string,string?
 setlocal lispwords+=take,take-nth,unquote,unquote-splicing,with*,with-decorator
 setlocal lispwords+=yield,yield-from,zero?,\|=,~,\|
 
-function! s:PrevPair(begin, end, here)
-	call cursor(a:here, 0)
-	return searchpairpos(a:begin, '', a:end, 'b')
-endfunction
-
-function! s:Compare(i1, i2)
-	if a:i1[3] == a:i2[3]
-		return a:i2[1] - a:i1[1]
-	endif
-	return a:i1[3] - a:i2[3]
-endfunction
-
-python << PYEOFA
-import vim
-import re
-PYEOFA
-
-function! s:FirstWord(pos)
-	python << PYEOFB
-p = list(map(int, vim.eval("a:pos")))
-f = vim.Function("getline")
-l = f(p[0])[p[1]:]
-l = re.split('\s+', l, 1)
-l = l[0].strip()
-vim.command("let l='{}'".format(l))
-PYEOFB
-	return l
-endfunction
+let s:indent_path = fnamemodify(expand("<sfile>"), ":p:h")
+python import sys
+exe 'python sys.path.insert(0, "' . escape(s:indent_path, '\"') . '")'
+python import hy
+python import hy_indent
 
 function! HyIndent(lnum)
-	if a:lnum == 0
-		return 0
-	endif
-
-	let braces = s:PrevPair('{', '}', a:lnum)
-	let brackets = s:PrevPair('\[', '\]', a:lnum)
-	let parens = s:PrevPair('(', ')', a:lnum)
-
-	let braces = braces + [ "braces", abs(braces[0] - a:lnum)]
-	let brackets = brackets + [ "brackets", abs(brackets[0] - a:lnum)]
-	let parens = parens + [ "parens", abs(parens[0] - a:lnum)]
-
-	let l = [braces, brackets, parens]
-	call filter(l, '!(v:val[0] == 0 && v:val[1] == 0) && v:val[0] < + a:lnum')
-	let l = sort(l, "s:Compare")
-
-	if len(l) == 0
-		" This means we're at the top level
-		return 0
-	endif
-
-	if l[0][2] == "parens"
-		let w = s:FirstWord([l[0][0], l[0][1]])
-		if &lispwords =~# '\V\<' . w . '\>'
-			return l[0][1] + &shiftwidth - 1
-		endif
-		return l[0][1] + len(w) + 1
-	endif
-
-	return l[0][1]
+	exe 'python hy_indent.do_indent(' . a:lnum . ')'
+	echo indent_result
+	return indent_result
 endfunction
 
 setlocal indentexpr=HyIndent(v:lnum)
