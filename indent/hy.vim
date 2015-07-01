@@ -29,7 +29,7 @@ setlocal lispwords+=false,true
 setlocal lispwords+=macro-error,defmacro-alias,let,if-python2,def,setv,fn,lambda
 
 " hyException
-setlocal lispwords+=throw,raise,try,except,catch
+setlocal lispwords+=throw,raise,try,except,catch,else,finally
 
 " hyCond
 setlocal lispwords+=cond,if-not,lisp-if,lif,when,unless
