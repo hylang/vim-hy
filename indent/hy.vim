@@ -53,19 +53,24 @@ setlocal lispwords+=,!=,%,%=,&,&=,*,**,**=,*=,+,+=,\,,-,--trampoline--,-=,.,/
 setlocal lispwords+=,//,//=,/=,<,<<,<<=,<=,=,>,>=,>>,>>=,HyComplex,HyCons
 setlocal lispwords+=HyExpression,HyFloat,HyInteger,HyKeyword,HyList,HyString
 setlocal lispwords+=HySymbol,^,^=,_flatten,_numeric-check,and,apply,assert,assoc
-setlocal lispwords+=break,calling-module-name,coll?,cons,cons?,continue,curry
-setlocal lispwords+=dec,del,dict-comp,disassemble,dispatch-reader-macro,distinct
-setlocal lispwords+=do,drop,empty?,eval,eval-and-compile,eval-when-compile
-setlocal lispwords+=even?,every?,fake-source-positions,first,flatten,float?
-setlocal lispwords+=from,genexpr,gensym,get,global,identity,if,import,in,inc
-setlocal lispwords+=instance?,integer,integer-char?,integer?,is,is-not
-setlocal lispwords+=iterable?,iterate,iterator?,keyword?,list,list*,list-comp
+setlocal lispwords+=break
+setlocal lispwords+=coll?,cons,cons?,continue,curry
+setlocal lispwords+=dec,del,dict-comp,disassemble,dispatch-reader-macro,distinct,do,drop
+setlocal lispwords+=empty?,eval,eval-and-compile,eval-when-compile,even?,every?
+setlocal lispwords+=fake-source-positions,first,flatten,float?,from
+setlocal lispwords+=genexpr,gensym,get,global
+setlocal lispwords+=identity,if,import,in,inc,instance?,integer,integer-char?,integer?,is,is-not
+setlocal lispwords+=iterable?,iterate,iterator?
+setlocal lispwords+=keyword?
+setlocal lispwords+=list,list*,list-comp
 setlocal lispwords+=macroexpand,macroexpand-1,map
-setlocal lispwords+=neg?,nil?,none?,not,not-in,nth
-setlocal lispwords+=numeric?,odd?,or,pos?,progn,quasiquote,quote
-setlocal lispwords+=recursive-replace,remove,repeatedly,require,rest,second
-setlocal lispwords+=set-comp,slice,some,string,string?
-setlocal lispwords+=take,take-nth,unquote,unquote-splicing,with*,with-decorator
+setlocal lispwords+=neg?,nil?,none?,not,not-in,nth,numeric?
+setlocal lispwords+=odd?,or,pos?,progn,quasiquote,quote
+setlocal lispwords+=recursive-replace,remove,repeatedly,require,rest
+setlocal lispwords+=second,set-comp,slice,some,string,string?
+setlocal lispwords+=take,take-nth
+setlocal lispwords+=unquote,unquote-splicing
+setlocal lispwords+=with*,with-decorator
 setlocal lispwords+=yield,yield-from,zero?,\|=,~,\|
 
 let s:indent_path = fnamemodify(expand("<sfile>"), ":p:h")
