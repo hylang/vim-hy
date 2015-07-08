@@ -7,10 +7,29 @@
 (defn cursor [line &optional [col 0]]
   (#v"cursor" line col))
 
+(defn searchpairpos [begin end skip]
+  (#v"searchpairpos" begin "" end "bW" skip))
+
+(defn syn-id-name []
+  (#v"synIDattr" (#v"synID" (#v"line" ".")
+                            (#v"col" ".")
+                            0)
+                 "name"))
+
+(defn current-char []
+  (try
+    (get (#v"getline" ".") (dec (#v"col" ".")))
+    (catch [e IndexError]
+      None)))
+
+(defn skip-position []
+  (or
+    (not-in (or (current-char) "nothing") "[](){}")
+    (in (syn-id-name) ["hyString" "hyComment"])))
 
 (defn prev-pair [begin end here]
   (cursor here)
-  (searchpairpos begin end))
+  (searchpairpos begin end "pyeval('hy_indent.skip_position()')"))
 
 (defn first-word [pos]
   (-> (re.split r"\s+" (slice (#v"getline" (first pos)) (second pos)) 1)
