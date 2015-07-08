@@ -1,21 +1,21 @@
 (import re)
 (import vim)
 
-(defn cursor [line &optional [col 0]]
-  ((vim.Function "cursor") line col))
+(defreader v [name]
+  `(vim.Function ~name))
 
-(defn searchpairpos [begin end]
-  ((vim.Function "searchpairpos") begin "" end "bW"))
+(defn cursor [line &optional [col 0]]
+  (#v"cursor" line col))
+
 
 (defn prev-pair [begin end here]
   (cursor here)
   (searchpairpos begin end))
 
 (defn first-word [pos]
-  (let [[f (vim.Function "getline")]]
-    (-> (re.split r"\s+" (slice (f (first pos)) (second pos)) 1)
-      first
-      .strip)))
+  (-> (re.split r"\s+" (slice (#v"getline" (first pos)) (second pos)) 1)
+    first
+    .strip))
 
 (defn export-result [f]
   (fn [&rest args]
