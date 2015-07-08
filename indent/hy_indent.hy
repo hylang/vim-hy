@@ -36,6 +36,11 @@
     first
     .strip))
 
+(defn is-last-word [pos]
+  (let [[l (slice (#v"getline" (first pos)) (second pos))]
+        [i (re.split r"\s+" l)]]
+    (= (len i) 1)))
+
 (defn export-result [f]
   (fn [&rest args]
     (let [[r (apply f args)]]
@@ -61,7 +66,7 @@
       [(= (second align) 'parens) ; Lisp indent
        (let [[w (first-word (first align))]
              [lw (int (vim.eval (.format r"&lispwords =~# '\V\<{}\>'" w)))]]
-         (if (= lw 1)
+         (if (or (= lw 1) (is-last-word (first align)))
            (dec (+ (second (first align)) (int (vim.eval "&shiftwidth"))))
            (inc (+ (second (first align)) (len w)))))]
       [True
