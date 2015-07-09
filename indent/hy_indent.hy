@@ -32,22 +32,26 @@
   (searchpairpos begin end "pyeval('hy_indent.skip_position()')"))
 
 (defn first-word [pos]
-  (-> (re.split r"\s+" (slice (#v"getline" (first pos)) (second pos)) 1)
+  (->> (slice (#v"getline" (first pos)) (second pos))
+    (re.split r"\s+")
     first
     .strip))
 
 (defn is-last-word [pos]
+  "Returns True if pos is inside the last word on a line"
   (let [[l (slice (#v"getline" (first pos)) (second pos))]
         [i (re.split r"\s+" l)]]
     (= (len i) 1)))
 
-(defn export-result [f]
-  (fn [&rest args]
-    (let [[r (apply f args)]]
-      (vim.command (.format "let indent_result='{}'" (str r))))
-    None))
+(defn export-result [varname]
+  "Decorator that wraps a function so that its return value is exported as a Vim variable"
+  (fn [f]
+    (fn [&rest args]
+      (let [[r (apply f args)]]
+        (vim.command (.format r"let {}='{}'" varname (str r)))
+        r))))
 
-(with-decorator export-result
+(with-decorator (export-result "indent_result")
   (defn do-indent [lnum]
     (setv lnum (int lnum))
     (setv align (-> (filter (fn [(, pos _)]
@@ -66,7 +70,7 @@
       [(= (second align) 'parens) ; Lisp indent
        (let [[w (first-word (first align))]
              [lw (int (vim.eval (.format r"&lispwords =~# '\V\<{}\>'" w)))]]
-         (if (or (= lw 1) (is-last-word (first align)))
+         (if (or (= lw 1) (last-word? (first align)))
            (dec (+ (second (first align)) (int (vim.eval "&shiftwidth"))))
            (inc (+ (second (first align)) (len w)))))]
       [True
