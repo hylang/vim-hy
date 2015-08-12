@@ -81,7 +81,6 @@ python import hy_indent
 
 function! HyIndent(lnum)
 	exe 'python hy_indent.do_indent(' . a:lnum . ')'
-	echo indent_result
 	return indent_result
 endfunction
 
