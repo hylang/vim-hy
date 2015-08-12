@@ -6,10 +6,10 @@
 " URL:          http://github.com/hylang/vim-hy
 "
 " Modified version of the clojure syntax file: https://github.com/guns/vim-clojure-static/blob/master/syntax/clojure.vim
-if exists("b:current_syntax")
+if exists("g:hy_loaded")
     finish
 endif
-
+let g:hy_loaded = 1
 
 " hy version 0.10.0
 syntax keyword hyConstant null nil
@@ -168,6 +168,54 @@ highlight default link hyError     Error
 
 highlight default link hyParen     Delimiter
 
-let b:current_syntax = "hy"
+" Conceal
+if !has('conceal') || &enc != 'utf-8' || get(g:, 'hy_enable_conceal', 0) != 1
+	finish
+endif
+
+syntax keyword hyDefine fn     conceal cchar=λ
+syntax keyword hyDefine lambda conceal cchar=λ
+syntax keyword hyDefine defn   conceal cchar=ƒ
+
+syntax keyword hyMacro and conceal cchar=∧
+syntax keyword hyMacro or  conceal cchar=∨
+syntax keyword hyMacro not conceal cchar=¬
+
+syntax keyword hyFunc <= conceal cchar=≤
+syntax keyword hyFunc >= conceal cchar=≥
+syntax keyword hyFunc != conceal cchar=≠
+
+syntax keyword hyFunc * conceal cchar=∙
+syntax keyword hyFunc math.sqrt conceal cchar=√
+
+syntax keyword hyMacro ->  conceal cchar=⊳
+syntax keyword hyMacro ->> conceal cchar=‣
+
+syntax keyword hyConstant None    conceal cchar=∅
+syntax keyword hyConstant math.pi conceal cchar=π
+syntax keyword hyConstant sum     conceal cchar=∑
+
+syntax keyword hyRepeat for    conceal cchar=∀
+syntax keyword hyMacro  some   conceal cchar=∃
+syntax keyword hyMacro  in     conceal cchar=∈
+syntax keyword hyMacro  not-in conceal cchar=∉
+
+syntax keyword hyVariable alpha   conceal cchar=α
+syntax keyword hyVariable beta    conceal cchar=β
+syntax keyword hyVariable gamma   conceal cchar=γ
+syntax keyword hyVariable delta   conceal cchar=δ
+syntax keyword hyVariable epsilon conceal cchar=ε
+
+syntax match hyAnonVarName "x" conceal cchar=x contained
+let s:idxchars = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉']
+for s:idx in range(0, 9)
+	execute 'syntax match hyAnonVarIndex "' . s:idx . '" conceal cchar=' . s:idxchars[s:idx] . ' contained'
+endfor
+syntax match hyAnonVarIndex "i" conceal cchar=ⁱ contained
+syntax match hyAnonVar "\<x[0-9i]\+\>" contains=hyAnonVarName,hyAnonVarIndex
+
+" hi! link Conceal Define
+
+setlocal conceallevel=2
 
 " vim:sts=4:sw=4:ts=4:et:smc=20000
