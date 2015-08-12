@@ -6,10 +6,11 @@
 " URL:          http://github.com/hylang/vim-hy
 "
 " Modified version of the clojure syntax file: https://github.com/guns/vim-clojure-static/blob/master/syntax/clojure.vim
-if exists("g:hy_loaded")
+if exists("b:current_syntax")
     finish
 endif
-let g:hy_loaded = 1
+
+let b:current_syntax = "hy"
 
 " hy version 0.10.0
 syntax keyword hyConstant null nil
