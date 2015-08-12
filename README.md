@@ -10,8 +10,8 @@ it. You can verify this with
 
 which should not show an error.
 
-Options
--------
+Conceal support
+---------------
 Use `let g:hy_enable_conceal = 1` to enable support for concealing some
 constructs with unicode glyphs. If this option is enabled, this
 
@@ -22,3 +22,17 @@ will be displayed like this
 
     (ƒ something [α β]
       (∑ (xⁱ + x₁ α) (range β)))
+
+The full table of concealed symbols looks like this:
+
+Symbol      | Display   | Symbol  | Display | Symbol    | Display
+----------: | :-------- | ------: | :------ | --------: | :------
+`fn`        | `λ`       | `and`   | `∧`     | `<=`      | `≤`
+`lambda`    | `λ`       | `or`    | `∨`     | `>=`      | `≥`
+`defn`      | `ƒ`       | `not`   | `¬`     | `!=`      | `≠`
+`*`         | `∙`       | `->`    | `⊳`     | `None`    | `∅`
+`math.sqrt` | `√`       | `->>`   | `‣`     | `math.pi` | `π`
+`sum`       | `∑`       | `for`   | `∀`     | `some`    | `∃`
+`in`        | `∈`       | `alpha` | `α`     | `gamma`   | `γ`
+`not-in`    | `∉`       | `beta`  | `β`     | `delta`   | `δ`
+`epsilon`   | `ε`       | `xi`    | `xⁱ`    | `x[0-9]`  | `x₀` -- `x₉`
