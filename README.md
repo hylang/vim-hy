@@ -35,4 +35,4 @@ Symbol      | Display   | Symbol  | Display | Symbol    | Display
 `sum`       | `∑`       | `for`   | `∀`     | `some`    | `∃`
 `in`        | `∈`       | `alpha` | `α`     | `gamma`   | `γ`
 `not-in`    | `∉`       | `beta`  | `β`     | `delta`   | `δ`
-`epsilon`   | `ε`       | `xi`    | `xⁱ`    | `x[0-9]`  | `x₀` -- `x₉`
+`epsilon`   | `ε`       | `xi`    | `xⁱ`    | `x[0-9]`  | `x₀` - `x₉`
