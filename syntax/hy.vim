@@ -212,8 +212,13 @@ let s:idxchars = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈',
 for s:idx in range(0, 9)
 	execute 'syntax match hyAnonVarIndex "' . s:idx . '" conceal cchar=' . s:idxchars[s:idx] . ' contained'
 endfor
-syntax match hyAnonVarIndex "i" conceal cchar=ⁱ contained
-syntax match hyAnonVar "\<x[0-9i]\+\>" contains=hyAnonVarName,hyAnonVarIndex
+if get(g:, "hy_conceal_fancy", 0) == 1
+	syntax match hyAnonVar "\<x[0-9]\+\>" contains=hyAnonVarName,hyAnonVarIndex
+	syntax keyword hyAnonVar xi conceal cchar=ξ
+else
+	syntax match hyAnonVarIndex "i" conceal cchar=ⁱ contained
+	syntax match hyAnonVar "\<x[0-9i]\+\>" contains=hyAnonVarName,hyAnonVarIndex
+endif
 
 " hi! link Conceal Define
 
