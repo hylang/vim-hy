@@ -21,7 +21,7 @@ constructs with unicode glyphs. If this option is enabled, this
 will be displayed like this
 
     (ƒ something [α β]
-      (∑ (xⁱ + x₁ α) (range β)))
+      (∑ (x¡ + x₁ α) (range β)))
 
 The full table of concealed symbols looks like this:
 
@@ -35,6 +35,6 @@ Symbol      | Display   | Symbol  | Display | Symbol    | Display
 `sum`       | `∑`       | `for`   | `∀`     | `some`    | `∃`
 `in`        | `∈`       | `alpha` | `α`     | `gamma`   | `γ`
 `not-in`    | `∉`       | `beta`  | `β`     | `delta`   | `δ`
-`epsilon`   | `ε`       | `xi`    | `xⁱ`    | `x[0-9]`  | `x₀` - `x₉`
+`epsilon`   | `ε`       | `xi`    | `x¡`    | `x[0-9]`  | `x₀` - `x₉`
 
 If you do `let g:hy_conceal_fancy=1`, `xi` is displayed as `ξ`.

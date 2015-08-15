@@ -216,7 +216,7 @@ if get(g:, "hy_conceal_fancy", 0) == 1
 	syntax match hyAnonVar "\<x[0-9]\+\>" contains=hyAnonVarName,hyAnonVarIndex
 	syntax keyword hyAnonVar xi conceal cchar=ξ
 else
-	syntax match hyAnonVarIndex "i" conceal cchar=ⁱ contained
+	syntax match hyAnonVarIndex "i" conceal cchar=¡ contained
 	syntax match hyAnonVar "\<x[0-9i]\+\>" contains=hyAnonVarName,hyAnonVarIndex
 endif
 
