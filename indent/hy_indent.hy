@@ -1,8 +1,12 @@
 (import re)
 (import vim)
 
+(defn vimfns (object))
 (defreader v [name]
-  `(vim.Function ~name))
+  `(do
+     (unless (hasattr vimfns ~name)
+       (setattr vimfns ~name (vim.Function ~name)))
+     (getattr vimfns ~name)))
 
 (defn cursor [line &optional [col 0]]
   (#v"cursor" line col))
