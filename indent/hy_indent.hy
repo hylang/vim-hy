@@ -1,4 +1,3 @@
-(import re)
 (import vim)
 
 (defn vimfns (object))
@@ -37,14 +36,15 @@
 
 (defn first-word [pos]
   (->> (slice (#v"getline" (first pos)) (second pos))
-    (re.split r"\s+")
+    .split
+    (filter (fn [x] (not (empty? x))))
     first
     .strip))
 
 (defn is-last-word [pos]
   "Returns True if pos is inside the last word on a line"
   (let [[l (slice (#v"getline" (first pos)) (second pos))]
-        [i (re.split r"\s+" l)]]
+        [i (list (filter (fn [x] (not (empty? x))) (.split l)))]]
     (= (len i) 1)))
 
 (defn export-result [varname]
