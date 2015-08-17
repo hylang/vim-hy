@@ -80,8 +80,7 @@ python import hy
 python import hy_indent
 
 function! HyIndent(lnum)
-	exe 'python hy_indent.do_indent(' . a:lnum . ')'
-	return indent_result
+	return pyeval('hy_indent.do_indent(' . a:lnum . ')')
 endfunction
 
 setlocal indentexpr=HyIndent(v:lnum)

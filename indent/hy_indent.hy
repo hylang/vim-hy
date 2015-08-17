@@ -47,35 +47,26 @@
         [i (list (filter (fn [x] (not (empty? x))) (.split l)))]]
     (= (len i) 1)))
 
-(defn export-result [varname]
-  "Decorator that wraps a function so that its return value is exported as a Vim variable"
-  (fn [f]
-    (fn [&rest args]
-      (let [[r (apply f args)]]
-        (vim.command (.format r"let {}='{}'" varname (str r)))
-        r))))
-
-(with-decorator (export-result "indent_result")
-  (defn do-indent [lnum]
-    (setv lnum (int lnum))
-    (setv align (-> (filter (fn [(, pos _)]
-                              (and (not (= (+ (first pos) (second pos)) 0))
-                                (< (first pos) lnum)))
-                            [(, (prev-pair "{" "}" lnum) 'braces)
-                             (, (prev-pair r"\[" r"\]" lnum) 'brackets)
-                             (, (prev-pair "(" ")" lnum) 'parens)])
-                  (sorted :reverse True
-                          :key (fn [(, pos _)]
-                                 (, (- (first pos) lnum)
-                                    (second pos))))
-                  first))
-    (cond
-      [(none? align) 0] ; Top level form
-      [(= (second align) 'parens) ; Lisp indent
-       (let [[w (first-word (first align))]
-             [lw (int (vim.eval (.format r"&lispwords =~# '\V\<{}\>'" w)))]]
-         (if (or (= lw 1) (last-word? (first align)))
-           (dec (+ (second (first align)) (int (vim.eval "&shiftwidth"))))
-           (inc (+ (second (first align)) (len w)))))]
-      [True
-       (second (first align))])))
+(defn do-indent [lnum]
+  (setv lnum (int lnum))
+  (setv align (-> (filter (fn [(, pos _)]
+                            (and (not (= (+ (first pos) (second pos)) 0))
+                              (< (first pos) lnum)))
+                          [(, (prev-pair "{" "}" lnum) 'braces)
+                           (, (prev-pair r"\[" r"\]" lnum) 'brackets)
+                           (, (prev-pair "(" ")" lnum) 'parens)])
+                (sorted :reverse True
+                        :key (fn [(, pos _)]
+                               (, (- (first pos) lnum)
+                                  (second pos))))
+                first))
+  (cond
+    [(none? align) 0] ; Top level form
+    [(= (second align) 'parens) ; Lisp indent
+     (let [[w (first-word (first align))]
+           [lw (in w (.split (get (. vim current buffer options) "lispwords") ","))]]
+       (if (or (= lw 1) (last-word? (first align)))
+         (dec (+ (second (first align)) (get (. vim current buffer options) "shiftwidth")))
+         (inc (+ (second (first align)) (len w)))))]
+    [True
+     (second (first align))]))
