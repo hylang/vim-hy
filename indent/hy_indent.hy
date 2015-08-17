@@ -7,32 +7,17 @@
        (setattr vimfns ~name (vim.Function ~name)))
      (getattr vimfns ~name)))
 
-(defn cursor [line &optional [col 0]]
-  (#v"cursor" line col))
+(defn syn-id-attr [id attr]
+  (#v"synIDattr" id attr))
 
-(defn searchpairpos [begin end skip]
-  (#v"searchpairpos" begin "" end "bW" skip))
+(defn syn-id [l c]
+  (#v"synID" l c 0))
 
-(defn syn-id-name []
-  (#v"synIDattr" (#v"synID" (#v"line" ".")
-                            (#v"col" ".")
-                            0)
-                 "name"))
+(defn syn-id-name [line col]
+  (syn-id-attr (syn-id line col) "name"))
 
-(defn current-char []
-  (try
-    (get (#v"getline" ".") (dec (#v"col" ".")))
-    (catch [e IndexError]
-      None)))
-
-(defn skip-position []
-  (or
-    (not-in (or (current-char) "nothing") "[](){}")
-    (in (syn-id-name) ["hyString" "hyComment"])))
-
-(defn prev-pair [begin end here]
-  (cursor here)
-  (searchpairpos begin end "pyeval('hy_indent.skip_position()')"))
+(defn skip-position [line col]
+  (in (syn-id-name (inc line) (inc col)) ["hyString" "hyComment"]))
 
 (defn first-word [pos]
   (->> (slice (#v"getline" (first pos)) (second pos))
@@ -47,14 +32,35 @@
         [i (list (filter (fn [x] (not (empty? x))) (.split l)))]]
     (= (len i) 1)))
 
+(defn paren-pair [bchar echar line col]
+  (let [[stuff (slice (. vim current buffer) 0 line)]
+        [skip 0] [pos None]]
+    (setv (get stuff -1) (slice (last stuff) 0 col))
+    (for [l (reversed (list (enumerate stuff)))
+          c (reversed (list (enumerate (get l 1))))]
+      (if (and (in (get c 1) [echar bchar]) (skip-position (get l 0) (get c 0)))
+        (continue))
+      (cond
+        [(= (get c 1) echar)
+         (setv skip (inc skip))]
+        [(= (get c 1) bchar)
+         (if (= 0 skip)
+           (if (none? pos)
+             (setv pos (, (inc (get l 0)) (inc (get c 0)))))
+           (setv skip (dec skip)))]))
+    (if (none? pos)
+      (, 0 0)
+      pos)))
+
 (defn do-indent [lnum]
   (setv lnum (int lnum))
+  (setv col (#v"col" "."))
   (setv align (-> (filter (fn [(, pos _)]
                             (and (not (= (+ (first pos) (second pos)) 0))
                               (< (first pos) lnum)))
-                          [(, (prev-pair "{" "}" lnum) 'braces)
-                           (, (prev-pair r"\[" r"\]" lnum) 'brackets)
-                           (, (prev-pair "(" ")" lnum) 'parens)])
+                          [(, (paren-pair "{" "}" lnum col) 'braces)
+                           (, (paren-pair r"\[" r"\]" lnum col) 'brackets)
+                           (, (paren-pair "(" ")" lnum col) 'parens)])
                 (sorted :reverse True
                         :key (fn [(, pos _)]
                                (, (- (first pos) lnum)
