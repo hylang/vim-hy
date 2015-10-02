@@ -70,9 +70,9 @@
   (cond
     [(none? align) 0] ; Top level form
     [(= (second align) 'parens) ; Lisp indent
-       (if (or (= lw 1) (last-word? (first align)))
      (let [w (first-word (first align))
            lw (in w (.split (get (. vim current buffer options) "lispwords") ","))]
+       (if (or lw (last-word? (first align)))
          (dec (+ (second (first align)) (get (. vim current buffer options) "shiftwidth")))
          (inc (+ (second (first align)) (len w)))))]
     [True
