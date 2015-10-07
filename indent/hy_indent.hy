@@ -60,7 +60,7 @@
                             (and (not (= (+ (first pos) (second pos)) 0))
                               (< (first pos) lnum)))
                           [(, (paren-pair "{" "}" lnum col) 'braces)
-                           (, (paren-pair r"\[" r"\]" lnum col) 'brackets)
+                           (, (paren-pair "[" "]" lnum col) 'brackets)
                            (, (paren-pair "(" ")" lnum col) 'parens)])
                 (sorted :reverse True
                         :key (fn [(, pos _)]
