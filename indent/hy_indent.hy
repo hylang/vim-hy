@@ -28,14 +28,14 @@
 
 (defn is-last-word [pos]
   "Returns True if pos is inside the last word on a line"
-  (let [l (cut (#v"getline" (first pos)) (second pos))
-        i (list (filter (fn [x] (not (empty? x))) (.split l)))]
+  (let [(l (cut (#v"getline" (first pos)) (second pos)))
+        (i (list (filter (fn [x] (not (empty? x))) (.split l))))]
     (= (len i) 1)))
 
 (defn paren-pair [bchar echar line col]
-  (let [stuff (cut (. vim current buffer) 0 line)
-        skip 0
-        pos None]
+  (let [(stuff (cut (. vim current buffer) 0 line))
+        (skip 0)
+        (pos None)]
     (setv (get stuff -1) (cut (last stuff) 0 col))
     (for [l (reversed (list (enumerate stuff)))
           c (reversed (list (enumerate (get l 1))))]
@@ -70,8 +70,8 @@
   (cond
     [(none? align) 0] ; Top level form
     [(= (second align) 'parens) ; Lisp indent
-     (let [w (first-word (first align))
-           lw (in w (.split (get (. vim current buffer options) "lispwords") ","))]
+     (let [(w (first-word (first align)))
+           (lw (in w (.split (get (. vim current buffer options) "lispwords") ",")))]
        (if (or lw (last-word? (first align)))
          (dec (+ (second (first align)) (get (. vim current buffer options) "shiftwidth")))
          (inc (+ (second (first align)) (len w)))))]
