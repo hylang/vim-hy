@@ -74,13 +74,22 @@ setlocal lispwords+=with*,with-decorator
 setlocal lispwords+=yield,yield-from,zero?,\|=,~,\|
 
 let s:indent_path = fnamemodify(expand("<sfile>"), ":p:h")
-python import sys
-exe 'python sys.path.insert(0, "' . escape(s:indent_path, '\"') . '")'
-python import hy
-python import hy_indent
+
+if has("python3")
+    command! -nargs=1 Python py3 <args>
+    command! -nargs=1 Pyeval py3eval <args>
+else
+    command! -nargs=1 Python py <args>
+    command! -nargs=1 Pyeval pyeval <args>
+endif
+
+Python import sys
+exe 'Python sys.path.insert(0, "' . escape(s:indent_path, '\"') . '")'
+Python import hy
+Python import hy_indent
 
 function! HyIndent(lnum)
-	return pyeval('hy_indent.do_indent(' . a:lnum . ')')
+	return Pyeval('hy_indent.do_indent(' . a:lnum . ')')
 endfunction
 
 setlocal indentexpr=HyIndent(v:lnum)
