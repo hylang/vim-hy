@@ -1,7 +1,7 @@
 (import vim)
 
 (defn vimfns (object))
-(defreader v [name]
+(defsharp v [name]
   `(do
      (unless (hasattr vimfns ~name)
        (setattr vimfns ~name (vim.Function ~name)))
@@ -28,30 +28,30 @@
 
 (defn is-last-word [pos]
   "Returns True if pos is inside the last word on a line"
-  (let [l (cut (#v"getline" (first pos)) (second pos))
-        i (list (filter (fn [x] (not (empty? x))) (.split l)))]
-    (= (len i) 1)))
+  (setv l (cut (#v"getline" (first pos)) (second pos)))
+  (setv i (list (filter (fn [x] (not (empty? x))) (.split l))))
+  (= (len i) 1))
 
 (defn paren-pair [bchar echar line col]
-  (let [stuff (cut (. vim current buffer) 0 line)
-        skip 0
-        pos None]
-    (setv (get stuff -1) (cut (last stuff) 0 col))
-    (for [l (reversed (list (enumerate stuff)))
-          c (reversed (list (enumerate (get l 1))))]
-      (if (and (in (get c 1) [echar bchar]) (skip-position (get l 0) (get c 0)))
-        (continue))
-      (cond
-        [(= (get c 1) echar)
-         (setv skip (inc skip))]
-        [(= (get c 1) bchar)
-         (if (= 0 skip)
-           (if (none? pos)
-             (setv pos (, (inc (get l 0)) (inc (get c 0)))))
-           (setv skip (dec skip)))]))
+  (setv stuff (cut (. vim current buffer) 0 line))
+  (setv skip 0)
+  (setv pos None)
+  (setv (get stuff -1) (cut (last stuff) 0 col))
+  (for [l (reversed (list (enumerate stuff)))
+            c (reversed (list (enumerate (get l 1))))]
+       (if (and (in (get c 1) [echar bchar]) (skip-position (get l 0) (get c 0)))
+         (continue))
+       (cond
+         [(= (get c 1) echar)
+          (setv skip (inc skip))]
+         [(= (get c 1) bchar)
+          (if (= 0 skip)
+            (if (none? pos)
+              (setv pos (, (inc (get l 0)) (inc (get c 0)))))
+            (setv skip (dec skip)))]))
     (if (none? pos)
       (, 0 0)
-      pos)))
+      pos))
 
 (defn do-indent [lnum]
   (setv lnum (int lnum))
@@ -70,10 +70,10 @@
   (cond
     [(none? align) 0] ; Top level form
     [(= (second align) 'parens) ; Lisp indent
-     (let [w (first-word (first align))
-           lw (in w (.split (get (. vim current buffer options) "lispwords") ","))]
-       (if (or lw (last-word? (first align)))
-         (dec (+ (second (first align)) (get (. vim current buffer options) "shiftwidth")))
-         (inc (+ (second (first align)) (len w)))))]
+     (setv w (first-word (first align)))
+     (setv lw (in w (.split (get (. vim current buffer options) "lispwords") ",")))
+     (if (or lw (last-word? (first align)))
+       (dec (+ (second (first align)) (get (. vim current buffer options) "shiftwidth")))
+       (inc (+ (second (first align)) (len w))))]
     [True
      (second (first align))]))
