@@ -39,7 +39,7 @@ setlocal lispwords+=loop,for*,while
 
 " hyDefine
 setlocal lispwords+=defmacro/g!,defmain,defn-alias,defun-alias,defmulti,defnc
-setlocal lispwords+=defclass,defmacro,defreader,defn,defun
+setlocal lispwords+=defclass,defmacro,defreader,defsharp,defn,defun
 
 " hyMacro
 setlocal lispwords+=,->,->>,ap-dotimes,ap-each,ap-each-while,ap-filter,ap-first

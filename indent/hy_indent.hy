@@ -1,7 +1,7 @@
 (import vim)
 
 (defn vimfns (object))
-(defreader v [name]
+(defsharp v [name]
   `(do
      (unless (hasattr vimfns ~name)
        (setattr vimfns ~name (vim.Function ~name)))
