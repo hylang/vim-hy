@@ -1,7 +1,7 @@
 (import vim)
 
-(defn vimfns (object))
-(defsharp v [name]
+(defn vimfns [] (object))
+(deftag v [name]
   `(do
      (unless (hasattr vimfns ~name)
        (setattr vimfns ~name (vim.Function ~name)))
@@ -56,14 +56,14 @@
 (defn do-indent [lnum]
   (setv lnum (int lnum))
   (setv col (#v"col" "."))
-  (setv align (-> (filter (fn [(, pos _)]
+  (setv align (-> (filter (fn [pos _]
                             (and (not (= (+ (first pos) (second pos)) 0))
-                              (< (first pos) lnum)))
+                                 (< (first pos) lnum)))
                           [(, (paren-pair "{" "}" lnum col) 'braces)
                            (, (paren-pair "[" "]" lnum col) 'brackets)
                            (, (paren-pair "(" ")" lnum col) 'parens)])
                 (sorted :reverse True
-                        :key (fn [(, pos _)]
+                        :key (fn [pos _]
                                (, (- (first pos) lnum)
                                   (second pos))))
                 first))
