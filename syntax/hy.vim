@@ -20,7 +20,7 @@ syntax keyword hyAnaphoric ap-if ap-each ap-each-while ap-map ap-map-when
 
 syntax keyword hyBuiltin *map accumulate and assoc butlast calling-module-name
             \ car cdr chain coll? combinations comp complement compress cons
-            \ cons? constantly count cut cycle dec del dict-comp
+            \ cons? constantly count cut cycle dec del dict-comp mangle unmangle
             \ disassemble distinct doto drop drop-last drop-while empty? even?
             \ every? filter first flatten float? fraction genexpr gensym get
             \ instance? integer integer-char? integer? interleave interpose
@@ -43,7 +43,7 @@ syntax keyword hyPythonBuiltin
 
 syntax keyword hyBoolean True False
 
-syntax keyword hyConstant None Ellipsis NotImplemented
+syntax keyword hyConstant None Ellipsis NotImplemented Inf NaN
             \ nil " Deprecated
 
 syntax keyword hyException ArithmeticError AssertionError AttributeError
@@ -59,7 +59,7 @@ syntax keyword hyException ArithmeticError AssertionError AttributeError
             \ ValueError Warning WindowsError ZeroDivisionError BufferError
             \ BytesWarning IndentationError ResourceWarning TabError
 
-syntax keyword hyDefine defclass defn defmacro defmacro/g! defmacro! defsharp deftag defmain
+syntax keyword hyDefine defclass def defn defmacro defmacro/g! defmacro! defsharp deftag defmain
             \ defun defreader " Deprecated
 
 syntax keyword hyStatement
@@ -88,7 +88,7 @@ syntax keyword hySpecial
 
 syntax keyword hyMisc
             \ eval eval-and-compile eval-when-compile
-            \ kwapply
+            \ apply kwapply
 
 syntax keyword hyErrorHandling except try throw raise catch finally assert
 
@@ -108,7 +108,6 @@ syntax match hyKeyword "\v<:{1,2}%([^ \n\r\t()\[\]{}";@^`~\\%/]+/)*[^ \n\r\t()\[
 
 syntax match hyStringEscape "\v\\%([\\btnfr"]|u\x{4}|[0-3]\o{2}|\o{1,2})" contained
 
-" TODO: bracket string literal
 syntax region hyString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=hyStringEscape
 syntax region hyString start="#\[\[" skip=/\\\\\|\\"/ end="\]\]" contains=hyStringEscape
 
@@ -295,8 +294,14 @@ syntax keyword hyConstant math.pi conceal cchar=π
 syntax keyword hyConstant sum     conceal cchar=∑
 
 syntax match hyRepeat contained "l" conceal cchar=l
+syntax match hyRepeat contained "s" conceal cchar=s
+syntax match hyRepeat contained "d" conceal cchar=d
+syntax match hyRepeat contained "g" conceal cchar=g
 syntax match hyRepeat contained "for" conceal cchar=∀
 syntax match hyRepeat "lfor" contains=hyRepeat,hyRepeat
+syntax match hyRepeat "sfor" contains=hyRepeat,hyRepeat
+syntax match hyRepeat "dfor" contains=hyRepeat,hyRepeat
+syntax match hyRepeat "gfor" contains=hyRepeat,hyRepeat
 syntax keyword hyRepeat for conceal cchar=∀
 
 syntax keyword hyMacro  some   conceal cchar=∃
