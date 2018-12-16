@@ -76,7 +76,7 @@ syntax keyword hyStatement
             \ lambda fn
 
 syntax keyword hyRepeat
-            \ loop recur lfor for for*
+            \ loop recur for for*
             \ while
 
 syntax keyword hyConditional
@@ -263,11 +263,13 @@ syn match hyAsync contained "/a" conceal cchar=a
 
 syn match hyDefine contained "fn" conceal cchar=λ
 syn match hyDefine "fn/a" contains=hyDefine,hyAsync
+syn keyword hyDefine fn conceal cchar=λ
 
 syntax keyword hyDefine lambda conceal cchar=λ
 
 syn match hyDefine contained "defn" conceal cchar=ƒ
 syn match hyDefine "defn/a" contains=hyDefine,hyAsync
+syn keyword hyDefine defn conceal cchar=ƒ
 
 syntax keyword hyMacro and conceal cchar=∧
 syntax keyword hyMacro or  conceal cchar=∨
@@ -288,8 +290,11 @@ syntax keyword hyConstant None    conceal cchar=∅
 syntax keyword hyConstant math.pi conceal cchar=π
 syntax keyword hyConstant sum     conceal cchar=∑
 
-syntax keyword hyRepeat for    conceal cchar=∀
-syntax keyword hyRepeat lfor    conceal cchar=l∀
+syntax match hyRepeat contained "l" conceal cchar=l
+syntax match hyRepeat contained "for" conceal cchar=∀
+syntax match hyRepeat "lfor" contains=hyRepeat,hyRepeat
+syntax keyword hyRepeat for conceal cchar=∀
+
 syntax keyword hyMacro  some   conceal cchar=∃
 syntax keyword hyMacro  in     conceal cchar=∈
 syntax keyword hyMacro  not-in conceal cchar=∉
