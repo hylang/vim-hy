@@ -13,6 +13,7 @@ endif
 let b:current_syntax = "hy"
 
 " hy version 0.13.0
+syntax keyword hyAsync \a
 syntax keyword hyAnaphoric ap-if ap-each ap-each-while ap-map ap-map-when
             \ ap-filter ap-reject ap-dotimes ap-first ap-last ap-reduce ap-pipe
             \ ap-compose xi
@@ -25,7 +26,7 @@ syntax keyword hyBuiltin *map accumulate and assoc butlast calling-module-name
             \ instance? integer integer-char? integer? interleave interpose
             \ is is-not is_not islice iterable? iterate iterator? juxt keyword
             \ keyword? last list* list-comp macroexpand macroexpand-1 map
-            \ merge-with multicombinations name neg? none? nth numeric? odd?
+            \ merge-with multicombinations name neg? none? nth numeric? odd? 
             \ or partition permutations pos? product quasiquote quote range
             \ read read-str reduce remove repeat repeatedly rest second setv
             \ set-comp slice some string string? symbol? take take-nth
@@ -58,7 +59,7 @@ syntax keyword hyException ArithmeticError AssertionError AttributeError
             \ ValueError Warning WindowsError ZeroDivisionError BufferError
             \ BytesWarning IndentationError ResourceWarning TabError
 
-syntax keyword hyDefine def defclass defn defmacro defmacro/g! defmacro! defsharp deftag defmain
+syntax keyword hyDefine defclass defn defmacro defmacro/g! defmacro! defsharp deftag defmain
             \ defun defreader " Deprecated
 
 syntax keyword hyStatement
@@ -67,7 +68,7 @@ syntax keyword hyStatement
             \ do progn
             \ print
             \ yield yield-from
-            \ with with*
+            \ with with* with/a
             \ with-gensyms
             \ global nonlocal
             \ not
@@ -75,7 +76,7 @@ syntax keyword hyStatement
             \ lambda fn
 
 syntax keyword hyRepeat
-            \ loop recur for for*
+            \ loop recur lfor for for*
             \ while
 
 syntax keyword hyConditional
@@ -87,7 +88,7 @@ syntax keyword hySpecial
 
 syntax keyword hyMisc
             \ eval eval-and-compile eval-when-compile
-            \ apply kwapply
+            \ kwapply
 
 syntax keyword hyErrorHandling except try throw raise catch finally assert
 
@@ -107,6 +108,7 @@ syntax match hyKeyword "\v<:{1,2}%([^ \n\r\t()\[\]{}";@^`~\\%/]+/)*[^ \n\r\t()\[
 
 syntax match hyStringEscape "\v\\%([\\btnfr"]|u\x{4}|[0-3]\o{2}|\o{1,2})" contained
 
+" TODO: bracket string literal
 syntax region hyString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=hyStringEscape
 
 syntax match hyCharacter "\\."
@@ -222,6 +224,7 @@ highlight default link hyRegexpQuote               hyRegexpBoundary
 highlight default link hyVariable      Identifier
 highlight default link hyConditional   Conditional
 highlight default link hyDefine        Define
+highlight default link hyAsync        Define
 highlight default link hyErrorHandling Exception
 highlight default link hyException     Type
 highlight default link hyBuiltin       Function
@@ -256,9 +259,15 @@ if !has('conceal') || &enc != 'utf-8' || get(g:, 'hy_enable_conceal', 0) != 1
 	finish
 endif
 
-syntax keyword hyDefine fn     conceal cchar=λ
+syn match hyAsync contained "/a" conceal cchar=a
+
+syn match hyDefine contained "fn" conceal cchar=λ
+syn match hyDefine "fn/a" contains=hyDefine,hyAsync
+
 syntax keyword hyDefine lambda conceal cchar=λ
-syntax keyword hyDefine defn   conceal cchar=ƒ
+
+syn match hyDefine contained "defn" conceal cchar=ƒ
+syn match hyDefine "defn/a" contains=hyDefine,hyAsync
 
 syntax keyword hyMacro and conceal cchar=∧
 syntax keyword hyMacro or  conceal cchar=∨
@@ -280,6 +289,7 @@ syntax keyword hyConstant math.pi conceal cchar=π
 syntax keyword hyConstant sum     conceal cchar=∑
 
 syntax keyword hyRepeat for    conceal cchar=∀
+syntax keyword hyRepeat lfor    conceal cchar=l∀
 syntax keyword hyMacro  some   conceal cchar=∃
 syntax keyword hyMacro  in     conceal cchar=∈
 syntax keyword hyMacro  not-in conceal cchar=∉
