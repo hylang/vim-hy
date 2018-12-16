@@ -145,7 +145,7 @@ syntax match hyUnquote "\~@"
 syntax match hyMeta "\^"
 syntax match hyDeref "@"
 syntax match hyDispatch "\v#[\^'=<_]"
-syntax match hyTagMacro "\v(#[^ \['=<_\^\*\"]+)"
+syntax match hyTagMacro "\v(#[^ \['=<_\^\*\"{]+)"
 syntax match hyUnpack "\v(#[\*]|[\*\*])"
 " hy permits no more than 20 params.
 syntax match hyAnonArg "%\(20\|1\d\|[1-9]\|&\)\?"
@@ -192,6 +192,7 @@ syntax match hyComment "\%^#!.*$"
 syntax region hySexp   matchgroup=hyParen start="("  matchgroup=hyParen end=")"  contains=TOP,@Spell
 syntax region hyVector matchgroup=hyParen start="\[" matchgroup=hyParen end="\]" contains=TOP,@Spell
 syntax region hyMap    matchgroup=hyParen start="{"  matchgroup=hyParen end="}"  contains=TOP,@Spell
+syntax region hySet    matchgroup=hyParen start="#{"  matchgroup=hyParen end="}"  contains=TOP,@Spell
 
 " Highlight superfluous closing parens, brackets and braces.
 syntax match hyError "]\|}\|)"
