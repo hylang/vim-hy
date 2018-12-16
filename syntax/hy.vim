@@ -264,7 +264,8 @@ syntax keyword hyMacro and conceal cchar=∧
 syntax keyword hyMacro or  conceal cchar=∨
 syntax keyword hyMacro not conceal cchar=¬
 
-syntax keyword hyFunc <= conceal cchar=≤
+syntax keyword hyFunc <=
+syntax match hyFunc "<=" conceal cchar=≤
 syntax keyword hyFunc >= conceal cchar=≥
 syntax keyword hyFunc != conceal cchar=≠
 
