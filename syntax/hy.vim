@@ -299,6 +299,7 @@ syntax match hyRepeat contained "s" conceal cchar=s
 syntax match hyRepeat contained "d" conceal cchar=d
 syntax match hyRepeat contained "g" conceal cchar=g
 syntax match hyRepeat contained "for" conceal cchar=∀
+syntax match hyRepeat "for/a" contains=hyRepeat,hyAsync
 syntax match hyRepeat "lfor" contains=hyRepeat,hyRepeat
 syntax match hyRepeat "sfor" contains=hyRepeat,hyRepeat
 syntax match hyRepeat "dfor" contains=hyRepeat,hyRepeat
