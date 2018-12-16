@@ -110,6 +110,7 @@ syntax match hyStringEscape "\v\\%([\\btnfr"]|u\x{4}|[0-3]\o{2}|\o{1,2})" contai
 
 " TODO: bracket string literal
 syntax region hyString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=hyStringEscape
+syntax region hyString start="#\[\[" skip=/\\\\\|\\"/ end="\]\]" contains=hyStringEscape
 
 syntax match hyCharacter "\\."
 syntax match hyCharacter "\\o\%([0-3]\o\{2\}\|\o\{1,2\}\)"
@@ -144,8 +145,8 @@ syntax match hyUnquote "\~"
 syntax match hyUnquote "\~@"
 syntax match hyMeta "\^"
 syntax match hyDeref "@"
-syntax match hyDispatch "\v#[\^'=<_]?"
-
+syntax match hyDispatch "\v#[\^'=<_]"
+syntax match hyTagMacro "\v(#[^ \['=<_\^]+)"
 " hy permits no more than 20 params.
 syntax match hyAnonArg "%\(20\|1\d\|[1-9]\|&\)\?"
 
@@ -230,6 +231,7 @@ highlight default link hyException     Type
 highlight default link hyBuiltin       Function
 highlight default link hyPythonBuiltin Function
 highlight default link hyAnaphoric     Macro
+highlight default link hyTagMacro     Macro
 highlight default link hyRepeat        Repeat
 highlight default link hyOpNoInplace   Operator
 highlight default link hyOpInplace     Operator
