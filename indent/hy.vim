@@ -102,4 +102,4 @@ function! HyIndent(lnum)
 	return Pyeval('hy_indent.do_indent(' . a:lnum . ')')
 endfunction
 
-setlocal indentexpr=HyIndent(v:lnum)
+setlocal indentexpr=HyIndent(a:lnum)
