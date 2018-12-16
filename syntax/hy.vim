@@ -146,7 +146,8 @@ syntax match hyUnquote "\~@"
 syntax match hyMeta "\^"
 syntax match hyDeref "@"
 syntax match hyDispatch "\v#[\^'=<_]"
-syntax match hyTagMacro "\v(#[^ \['=<_\^]+)"
+syntax match hyTagMacro "\v(#[^ \['=<_\^\*\"]+)"
+syntax match hyUnpack "\v(#[\*]|[\*\*])"
 " hy permits no more than 20 params.
 syntax match hyAnonArg "%\(20\|1\d\|[1-9]\|&\)\?"
 
@@ -247,6 +248,7 @@ highlight default link hyMeta      SpecialChar
 highlight default link hyDeref     SpecialChar
 highlight default link hyAnonArg   SpecialChar
 highlight default link hyDispatch  SpecialChar
+highlight default link hyUnpack  SpecialChar
 
 highlight default link hyComment     Comment
 highlight default link hyCommentTodo Todo
