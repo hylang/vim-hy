@@ -8,10 +8,10 @@
      (getattr vimfns ~name)))
 
 (defn syn-id-attr [id attr]
-  (#v"synIDattr" id attr))
+  (vim.command (.format "synIDattr({0}, {1})" id attr)))
 
 (defn syn-id [l c]
-  (#v"synID" l c 0))
+  (vim.command (.format "synID({0}, {1}, 0)" l c)))
 
 (defn syn-id-name [line col]
   (syn-id-attr (syn-id line col) "name"))
@@ -20,7 +20,7 @@
   (in (syn-id-name (inc line) (inc col)) ["hyString" "hyComment"]))
 
 (defn first-word [pos]
-  (->> (cut (#v"getline" (first pos)) (second pos))
+  (->> (cut (vim.command (.fomrat "getline({0})" (first pos))) (second pos))
     .split
     (filter (fn [x] (not (empty? x))))
     first
@@ -28,7 +28,7 @@
 
 (defn is-last-word [pos]
   "Returns True if pos is inside the last word on a line"
-  (setv l (cut (#v"getline" (first pos)) (second pos)))
+  (setv l (cut (vim.command (.fomrat "getline({0})" (first pos))) (second pos)))
   (setv i (list (filter (fn [x] (not (empty? x))) (.split l))))
   (= (len i) 1))
 
@@ -55,15 +55,15 @@
 
 (defn do-indent [lnum]
   (setv lnum (int lnum))
-  (setv col (#v"col" "."))
-  (setv align (-> (filter (fn [pos _]
-                            (and (not (= (+ (first pos) (second pos)) 0))
+  (setv col (int (vim.eval "col('.')")))
+  (setv align (-> (filter (fn [pos]
+                            (and (not (= (first pos) 0))
                                  (< (first pos) lnum)))
-                          [(, (paren-pair "{" "}" lnum col) 'braces)
-                           (, (paren-pair "[" "]" lnum col) 'brackets)
-                           (, (paren-pair "(" ")" lnum col) 'parens)])
+                          [(paren-pair "{" "}" lnum col)
+                           (paren-pair "[" "]" lnum col)
+                           (paren-pair "(" ")" lnum col)])
                 (sorted :reverse True
-                        :key (fn [pos _]
+                        :key (fn [pos]
                                (, (- (first pos) lnum)
                                   (second pos))))
                 first))

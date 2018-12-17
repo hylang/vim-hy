@@ -97,9 +97,11 @@ Python import sys
 exe 'Python sys.path.insert(0, "' . escape(s:indent_path, '\"') . '")'
 Python import hy
 Python import hy_indent
+Python import vim
 
 function! HyIndent(lnum)
-	return Pyeval('hy_indent.do_indent(' . a:lnum . ')')
+  echo 'hy_indent.do_indent(' . a:lnum .')'
+	Python hy_indent.do_indent(vim.eval('a:lnum'))
 endfunction
 
 setlocal indentexpr=HyIndent(a:lnum)
