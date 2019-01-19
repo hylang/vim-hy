@@ -145,7 +145,7 @@ syntax match hyUnquote "\~@"
 syntax match hyMeta "\^"
 syntax match hyDeref "@"
 syntax match hyDispatch "\v#[\^'=<_@]"
-syntax match hyTagMacro "\v(#[^ \['=<_\^\*\"{@]+)"
+syntax match hyTagMacro "\v(#[^ \['=<_\^\*\"{@!]+)"
 syntax match hyUnpack "\v(#[\*]|[\*\*])"
 " hy permits no more than 20 params.
 syntax match hyAnonArg "%\(20\|1\d\|[1-9]\|&\)\?"
