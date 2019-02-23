@@ -30,11 +30,14 @@ Symbol      | Display   | Symbol  | Display | Symbol    | Display
 `fn`        | `λ`       | `and`   | `∧`     | `<=`      | `≤`
 `lambda`    | `λ`       | `or`    | `∨`     | `>=`      | `≥`
 `defn`      | `ƒ`       | `not`   | `¬`     | `!=`      | `≠`
+`defn/a`    | `ƒa`      | `fn/a`  | `λa`    | `lfor`    | `s∀`
+`sfor`      | `s∀`      | `dfor`  | `d∀`    | `gfor`    | `g∀`
 `*`         | `∙`       | `->`    | `⊳`     | `None`    | `∅`
 `math.sqrt` | `√`       | `->>`   | `‣`     | `math.pi` | `π`
 `sum`       | `∑`       | `for`   | `∀`     | `some`    | `∃`
 `in`        | `∈`       | `alpha` | `α`     | `gamma`   | `γ`
 `not-in`    | `∉`       | `beta`  | `β`     | `delta`   | `δ`
-`epsilon`   | `ε`       | `xi`    | `x¡`    | `x[0-9]`  | `x₀` - `x₉`
+`epsilon`   | `ε`       | `xi`    | `x¡`    | `#%`      | `x¡`
+`x[0-9]`    | `x₀` - `x₉`
 
-If you do `let g:hy_conceal_fancy=1`, `xi` is displayed as `ξ`.
+If you do `let g:hy_conceal_fancy=1`, `xi`  and `#%` are displayed as `ξ`.

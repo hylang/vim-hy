@@ -12,16 +12,88 @@ endif
 
 let b:current_syntax = "hy"
 
-" hy version 0.10.0
-syntax keyword hyConstant null nil
-syntax keyword hyBoolean false true
-syntax keyword hySpecial macro-error defmacro-alias let if-python2 def setv fn lambda
-syntax keyword hyException throw raise try except catch
-syntax keyword hyCond cond if-not lisp-if lif when unless
-syntax keyword hyRepeat loop for* while
-syntax keyword hyDefine defmacro/g! defmain defn-alias defun-alias defmulti defnc defclass defmacro defreader defn defun
-syntax keyword hyMacro for with car cdr -> ->> with-gensyms ap-if ap-each ap-each-while ap-map ap-map-when ap-filter ap-reject ap-dotimes ap-first ap-last ap-reduce defnc fnc fnr route-with-methods route post-route put-route delete-route profile/calls profile/cpu walk postwalk prewalk macroexpand-all
-syntax keyword hyFunc curry --trampoline-- recursive-replace _numeric-check coll? cons cons? keyword? dec disassemble distinct drop empty? even? every? fake-source-positions flatten _flatten float? gensym calling-module-name first identity inc instance? integer integer? integer-char? iterable? iterate iterator? list* macroexpand macroexpand-1 neg? none? nil? numeric? nth odd? pos? remove rest repeatedly second some string string? take take-nth zero? list quote quasiquote unquote unquote-splicing eval do progn if break print continue assert global yield yield-from from import get . del slice assoc with-decorator with* , list-comp set-comp dict-comp genexpr apply not ~ require and or = != < <= > >= is in is-not not-in % / // ** << >> ^ & + * - += /= //= *= -= %= **= <<= >>= ^= &= HyExpression HyList dispatch-reader-macro eval-and-compile eval-when-compile HyCons HyInteger HyFloat HyComplex HySymbol HyString HyKeyword
+" hy version 0.13.0
+syntax keyword hyAsync \a
+syntax keyword hyAnaphoric ap-if ap-each ap-each-while ap-map ap-map-when
+            \ ap-filter ap-reject ap-dotimes ap-first ap-last ap-reduce ap-pipe
+            \ ap-compose xi
+
+syntax keyword hyBuiltin *map accumulate and assoc butlast calling-module-name
+            \ car cdr chain coll? combinations comp complement compress cons
+            \ cons? constantly count cut cycle dec del dict-comp mangle unmangle
+            \ disassemble distinct doto drop drop-last drop-while empty? even?
+            \ every? filter first flatten float? fraction genexpr gensym get
+            \ instance? integer integer-char? integer? interleave interpose
+            \ is is-not is_not islice iterable? iterate iterator? juxt keyword
+            \ keyword? last list* list-comp macroexpand macroexpand-1 map
+            \ merge-with multicombinations name neg? none? nth numeric? odd? 
+            \ or partition permutations pos? product quasiquote quote range
+            \ read read-str reduce remove repeat repeatedly rest second setv
+            \ set-comp slice some string string? symbol? take take-nth
+            \ take-while tee unquote unquote-splice xor zero? zip zip-longest
+
+syntax keyword hyPythonBuiltin
+            \ abs all any bin bool callable chr compile complex delattr dict
+            \ dir divmod enumerate eval float format frozenset getattr globals
+            \ hasattr hash help hex id isinstance issubclass iter len list
+            \ locals max memoryview min next object oct open ord pow repr
+            \ reversed round set setattr sorted str sum super tuple type vars
+            \ ascii bytearray bytes exec --package-- __package__ --import--
+            \ __import__ --all-- __all__ --doc-- __doc__ --name-- __name__
+
+syntax keyword hyBoolean True False
+
+syntax keyword hyConstant None Ellipsis NotImplemented Inf NaN
+            \ nil " Deprecated
+
+syntax keyword hyException ArithmeticError AssertionError AttributeError
+            \ BaseException DeprecationWarning EOFError EnvironmentError
+            \ Exception FloatingPointError FutureWarning GeneratorExit IOError
+            \ ImportError ImportWarning IndexError KeyError KeyboardInterrupt
+            \ LookupError MemoryError NameError NotImplementedError OSError
+            \ OverflowError PendingDeprecationWarning ReferenceError
+            \ RuntimeError RuntimeWarning StopIteration SyntaxError
+            \ SyntaxWarning SystemError SystemExit TypeError UnboundLocalError
+            \ UnicodeDecodeError UnicodeEncodeError UnicodeError
+            \ UnicodeTranslateError UnicodeWarning UserWarning VMSError
+            \ ValueError Warning WindowsError ZeroDivisionError BufferError
+            \ BytesWarning IndentationError ResourceWarning TabError
+
+syntax keyword hyDefine defclass def defn defmacro defmacro/g! defmacro! defsharp deftag defmain
+            \ defun defreader " Deprecated
+
+syntax keyword hyStatement
+            \ return
+            \ break continue
+            \ do progn
+            \ print
+            \ yield yield-from
+            \ with with* with/a
+            \ with-gensyms
+            \ global nonlocal
+            \ not
+            \ in not-in
+            \ lambda fn
+
+syntax keyword hyRepeat
+            \ loop recur for for*
+            \ while
+
+syntax keyword hyConditional
+            \ if if* if-not lif lif-not
+            \ else unless when cond
+
+syntax keyword hySpecial
+            \ self
+
+syntax keyword hyMisc
+            \ eval eval-and-compile eval-when-compile
+            \ apply kwapply
+
+syntax keyword hyErrorHandling except try throw raise catch finally assert
+
+syntax keyword hyInclude import require
+
 " Not used at this moment
 "syntax keyword hyVariable
 
@@ -37,6 +109,7 @@ syntax match hyKeyword "\v<:{1,2}%([^ \n\r\t()\[\]{}";@^`~\\%/]+/)*[^ \n\r\t()\[
 syntax match hyStringEscape "\v\\%([\\btnfr"]|u\x{4}|[0-3]\o{2}|\o{1,2})" contained
 
 syntax region hyString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=hyStringEscape
+syntax region hyString start="#\[\[" skip=/\\\\\|\\"/ end="\]\]" contains=hyStringEscape
 
 syntax match hyCharacter "\\."
 syntax match hyCharacter "\\o\%([0-3]\o\{2\}\|\o\{1,2\}\)"
@@ -49,6 +122,9 @@ syntax match hyCharacter "\\backspace"
 syntax match hyCharacter "\\formfeed"
 
 syntax match hySymbol "\v%([a-zA-Z!$&*_+=|<.>?-]|[^\x00-\x7F])+%(:?%([a-zA-Z0-9!#$%&*_+=|'<.>/?-]|[^\x00-\x7F]))*[#:]@<!"
+
+syntax match hyOpNoInplace "\M\<\(=\|!=\|.\|,\|->\|->>\|as->\)\>"
+syntax match hyOpInplace "\M\<\(!\|%\|&\|*\|**\|+\|-\|/\|//\|<\|<<\|>\|>>\|^\||\)=\?\>"
 
 let s:radix_chars = "0123456789abcdefghijklmnopqrstuvwxyz"
 for s:radix in range(2, 36)
@@ -68,8 +144,9 @@ syntax match hyUnquote "\~"
 syntax match hyUnquote "\~@"
 syntax match hyMeta "\^"
 syntax match hyDeref "@"
-syntax match hyDispatch "\v#[\^'=<_]?"
-
+syntax match hyDispatch "\v#[\^'=<_@]"
+syntax match hyTagMacro "\v(#[^ \['=<_\^\*\"{@!]+)"
+syntax match hyUnpack "\v(#[\*]|[\*\*])"
 " hy permits no more than 20 params.
 syntax match hyAnonArg "%\(20\|1\d\|[1-9]\|&\)\?"
 
@@ -115,6 +192,7 @@ syntax match hyComment "\%^#!.*$"
 syntax region hySexp   matchgroup=hyParen start="("  matchgroup=hyParen end=")"  contains=TOP,@Spell
 syntax region hyVector matchgroup=hyParen start="\[" matchgroup=hyParen end="\]" contains=TOP,@Spell
 syntax region hyMap    matchgroup=hyParen start="{"  matchgroup=hyParen end="}"  contains=TOP,@Spell
+syntax region hySet    matchgroup=hyParen start="#{"  matchgroup=hyParen end="}"  contains=TOP,@Spell
 
 " Highlight superfluous closing parens, brackets and braces.
 syntax match hyError "]\|}\|)"
@@ -145,13 +223,22 @@ highlight default link hyRegexpGroup               hyRegexp
 highlight default link hyRegexpQuoted              hyString
 highlight default link hyRegexpQuote               hyRegexpBoundary
 
-highlight default link hyVariable  Identifier
-highlight default link hyCond      Conditional
-highlight default link hyDefine    Define
-highlight default link hyException Exception
-highlight default link hyFunc      Function
-highlight default link hyMacro     Macro
-highlight default link hyRepeat    Repeat
+highlight default link hyVariable      Identifier
+highlight default link hyConditional   Conditional
+highlight default link hyDefine        Define
+highlight default link hyAsync        Define
+highlight default link hyErrorHandling Exception
+highlight default link hyException     Type
+highlight default link hyBuiltin       Function
+highlight default link hyPythonBuiltin Function
+highlight default link hyAnaphoric     Macro
+highlight default link hyTagMacro     Macro
+highlight default link hyRepeat        Repeat
+highlight default link hyOpNoInplace   Operator
+highlight default link hyOpInplace     Operator
+highlight default link hyStatement     Statement
+highlight default link hyMisc          PreProc
+highlight default link hyInclude       Include
 
 highlight default link hySpecial   Special
 highlight default link hyVarArg    Special
@@ -161,6 +248,7 @@ highlight default link hyMeta      SpecialChar
 highlight default link hyDeref     SpecialChar
 highlight default link hyAnonArg   SpecialChar
 highlight default link hyDispatch  SpecialChar
+highlight default link hyUnpack  SpecialChar
 
 highlight default link hyComment     Comment
 highlight default link hyCommentTodo Todo
@@ -169,20 +257,30 @@ highlight default link hyError     Error
 
 highlight default link hyParen     Delimiter
 
+
 " Conceal
 if !has('conceal') || &enc != 'utf-8' || get(g:, 'hy_enable_conceal', 0) != 1
 	finish
 endif
 
-syntax keyword hyDefine fn     conceal cchar=λ
+syn match hyAsync contained "/a" conceal cchar=a
+
+syn match hyDefine contained "fn" conceal cchar=λ
+syn match hyDefine "fn/a" contains=hyDefine,hyAsync
+syn keyword hyDefine fn conceal cchar=λ
+
 syntax keyword hyDefine lambda conceal cchar=λ
-syntax keyword hyDefine defn   conceal cchar=ƒ
+
+syn match hyDefine contained "defn" conceal cchar=ƒ
+syn match hyDefine "defn/a" contains=hyDefine,hyAsync
+syn keyword hyDefine defn conceal cchar=ƒ
 
 syntax keyword hyMacro and conceal cchar=∧
 syntax keyword hyMacro or  conceal cchar=∨
 syntax keyword hyMacro not conceal cchar=¬
 
-syntax keyword hyFunc <= conceal cchar=≤
+syntax keyword hyFunc <=
+syntax match hyFunc "<=" conceal cchar=≤
 syntax keyword hyFunc >= conceal cchar=≥
 syntax keyword hyFunc != conceal cchar=≠
 
@@ -196,7 +294,18 @@ syntax keyword hyConstant None    conceal cchar=∅
 syntax keyword hyConstant math.pi conceal cchar=π
 syntax keyword hyConstant sum     conceal cchar=∑
 
-syntax keyword hyRepeat for    conceal cchar=∀
+syntax match hyRepeat contained "l" conceal cchar=l
+syntax match hyRepeat contained "s" conceal cchar=s
+syntax match hyRepeat contained "d" conceal cchar=d
+syntax match hyRepeat contained "g" conceal cchar=g
+syntax match hyRepeat contained "for" conceal cchar=∀
+syntax match hyRepeat "for/a" contains=hyRepeat,hyAsync
+syntax match hyRepeat "lfor" contains=hyRepeat,hyRepeat
+syntax match hyRepeat "sfor" contains=hyRepeat,hyRepeat
+syntax match hyRepeat "dfor" contains=hyRepeat,hyRepeat
+syntax match hyRepeat "gfor" contains=hyRepeat,hyRepeat
+syntax keyword hyRepeat for conceal cchar=∀
+
 syntax keyword hyMacro  some   conceal cchar=∃
 syntax keyword hyMacro  in     conceal cchar=∈
 syntax keyword hyMacro  not-in conceal cchar=∉
@@ -215,8 +324,12 @@ endfor
 if get(g:, "hy_conceal_fancy", 0) == 1
 	syntax match hyAnonVar "\<x[0-9]\+\>" contains=hyAnonVarName,hyAnonVarIndex
 	syntax keyword hyAnonVar xi conceal cchar=ξ
+	syntax match hyTagMacro "#%" conceal cchar=ξ
 else
 	syntax match hyAnonVarIndex "i" conceal cchar=¡ contained
+	syntax match hyTagMacro contained "#" conceal cchar=x
+	syntax match hyAnonArg contained "%" conceal cchar=¡
+    syntax match hyTagMacro "#%" contains=hyTagMacro,hyAnonArg
 	syntax match hyAnonVar "\<x[0-9i]\+\>" contains=hyAnonVarName,hyAnonVarIndex
 endif
 

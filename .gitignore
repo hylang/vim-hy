@@ -1,3 +1,4 @@
 .git
 *.swo
 *.swp
+__pycache__
