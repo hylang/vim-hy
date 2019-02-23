@@ -10,6 +10,15 @@ it. You can verify this with
 
 which should not show an error.
 
+Installation
+------------
+
+If you are using [Plug](https://github.com/junegunn/vim-plug), add this to your plugins list in `.vimrc`:
+
+    Plug 'hylang/vim-hy'
+    
+Otherwise, install using whatever vim plugin approach you prefer.
+
 Conceal support
 ---------------
 Use `let g:hy_enable_conceal = 1` to enable support for concealing some
