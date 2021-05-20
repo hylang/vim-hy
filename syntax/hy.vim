@@ -59,9 +59,6 @@ syntax keyword hyException ArithmeticError AssertionError AttributeError
             \ ValueError Warning WindowsError ZeroDivisionError BufferError
             \ BytesWarning IndentationError ResourceWarning TabError
 
-syntax keyword hyDefine defclass def defn defmacro defmacro/g! defmacro! defsharp deftag defmain
-            \ defun defreader " Deprecated
-
 syntax keyword hyStatement
             \ return
             \ break continue
@@ -97,7 +94,6 @@ syntax keyword hyInclude import require
 " Not used at this moment
 "syntax keyword hyVariable
 
-
 " Keywords are symbols:
 "   static Pattern symbolPat = Pattern.compile("[:]?([\\D&&[^/]].*/)?([\\D&&[^/]][^/]*)");
 " But they:
@@ -122,6 +118,10 @@ syntax match hyCharacter "\\backspace"
 syntax match hyCharacter "\\formfeed"
 
 syntax match hySymbol "\v%([a-zA-Z!$&*_+=|<.>?-]|[^\x00-\x7F])+%(:?%([a-zA-Z0-9!#$%&*_+=|'<.>/?-]|[^\x00-\x7F]))*[#:]@<!"
+
+" Highlight forms that start with `def`, so that users can have highlighting
+" for any custom def-* macros
+syntax match hyDefine /\v[(]@<=def(ault)@!\S*/
 
 syntax match hyOpNoInplace "\M\<\(=\|!=\|.\|,\|->\|->>\|as->\)\>"
 syntax match hyOpInplace "\M\<\(!\|%\|&\|*\|**\|+\|-\|/\|//\|<\|<<\|>\|>>\|^\||\)=\?\>"
