@@ -3,6 +3,7 @@
 " License:      Same as VIM
 " Authors:      Morten Linderud <mcfoxax@gmail.com>
 "               Alejandro Gómez <alejandro@dialelo.com>
+"               Sunjay Cauligi <scauligi@eng.ucsd.edu>
 " URL:          http://github.com/hylang/vim-hy
 "
 " Modified version of the clojure syntax file: https://github.com/guns/vim-clojure-static/blob/master/syntax/clojure.vim
@@ -12,34 +13,29 @@ endif
 
 let b:current_syntax = "hy"
 
-" hy version 0.13.0
+" hy version 1.0 alpha
 syntax keyword hyAsync \a
 syntax keyword hyAnaphoric ap-if ap-each ap-each-while ap-map ap-map-when
             \ ap-filter ap-reject ap-dotimes ap-first ap-last ap-reduce ap-pipe
-            \ ap-compose xi
+            \ ap-compose
 
-syntax keyword hyBuiltin *map accumulate and assoc butlast calling-module-name
-            \ car cdr chain coll? combinations comp complement compress cons
-            \ cons? constantly count cut cycle dec del dict-comp mangle unmangle
-            \ disassemble distinct doto drop drop-last drop-while empty? even?
-            \ every? filter first flatten float? fraction genexpr gensym get
-            \ instance? integer integer-char? integer? interleave interpose
-            \ is is-not is_not islice iterable? iterate iterator? juxt keyword
-            \ keyword? last list* list-comp macroexpand macroexpand-1 map
-            \ merge-with multicombinations name neg? none? nth numeric? odd? 
-            \ or partition permutations pos? product quasiquote quote range
-            \ read read-str reduce remove repeat repeatedly rest second setv
-            \ set-comp slice some string string? symbol? take take-nth
-            \ take-while tee unquote unquote-splice xor zero? zip zip-longest
+syntax keyword hyBuiltin
+            \ and assoc block block-ret butlast chain chainc coll? constantly
+            \ count cut dec del doc distinct doto drop-last filter flatten get
+            \ is is-not is_not islice let list-n map or quasiquote quote range
+            \ reduce rest setv slice tee unquote unquote-splice xor zip
 
+" Derived from vim's python syntax file
 syntax keyword hyPythonBuiltin
-            \ abs all any bin bool callable chr compile complex delattr dict
-            \ dir divmod enumerate eval float format frozenset getattr globals
-            \ hasattr hash help hex id isinstance issubclass iter len list
-            \ locals max memoryview min next object oct open ord pow repr
-            \ reversed round set setattr sorted str sum super tuple type vars
-            \ ascii bytearray bytes exec --package-- __package__ --import--
-            \ __import__ --all-- __all__ --doc-- __doc__ --name-- __name__
+            \ abs all any ascii bin bool breakpoint bytearray bytes callable chr
+            \ classmethod compile complex delattr dict dir divmod enumerate eval
+            \ exec filter float format frozenset getattr globals hasattr hash
+            \ help hex id input int isinstance issubclass iter len list locals
+            \ map max memoryview min next object oct open ord pow print property
+            \ range repr reversed round set setattr slice sorted staticmethod
+            \ str sum super tuple type vars zip --package-- __package__
+            \ --import-- __import__ --all-- __all__ --doc-- __doc__ --name--
+            \ __name__
 
 syntax keyword hyBoolean True False
 
@@ -77,8 +73,10 @@ syntax keyword hyRepeat
             \ while
 
 syntax keyword hyConditional
-            \ if if* if-not lif lif-not
-            \ else unless when cond
+            \ if lif else
+            \ unless when
+            \ cond branch ebranch case ecase
+            \ match
 
 syntax keyword hySpecial
             \ self
@@ -122,7 +120,7 @@ syntax match hySymbol "\v%([a-zA-Z!$&*_+=|<.>?-]|[^\x00-\x7F])+%(:?%([a-zA-Z0-9!
 
 " Highlight forms that start with `def`, so that users can have highlighting
 " for any custom def-* macros
-syntax match hyDefine /\v[(]@<=def(ault)@!\S*/
+syntax match hyDefine /\v[(]@<=def(ault)@!\S+/
 
 syntax match hyOpNoInplace "\M\<\(=\|!=\|.\|,\|->\|->>\|as->\)\>"
 syntax match hyOpInplace "\M\<\(!\|%\|&\|*\|**\|+\|-\|/\|//\|<\|<<\|>\|>>\|^\||\)=\?\>"
@@ -305,6 +303,7 @@ syntax match hyRepeat "lfor" contains=hyRepeat,hyRepeat
 syntax match hyRepeat "sfor" contains=hyRepeat,hyRepeat
 syntax match hyRepeat "dfor" contains=hyRepeat,hyRepeat
 syntax match hyRepeat "gfor" contains=hyRepeat,hyRepeat
+syntax match hyRepeat "cfor" contains=hyRepeat,hyRepeat
 syntax keyword hyRepeat for conceal cchar=∀
 
 syntax keyword hyMacro  some   conceal cchar=∃
