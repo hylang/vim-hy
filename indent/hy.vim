@@ -20,8 +20,10 @@ if exists("*searchpairpos")
   function! GetHyIndent()
     let l:clojure_align_multiline_strings = g:clojure_align_multiline_strings
     let l:clojure_special_indent_words = g:clojure_special_indent_words
-    if !exists('g:hy_align_multiline_strings')
-      let g:hy_align_multiline_strings = 1
+    if exists('g:hy_align_multiline_strings')
+      let g:clojure_align_multiline_strings = 1
+    else
+      let g:clojure_align_multiline_strings = g:hy_align_multiline_strings
     endif
     let g:clojure_special_indent_words = ''
     try

@@ -85,6 +85,7 @@ syntax keyword hySpecial
 
 syntax keyword hyMisc
             \ eval eval-and-compile eval-when-compile
+            \ eval-and-read eval-when-read
             \ apply kwapply
 
 syntax keyword hyErrorHandling except try throw raise catch finally assert
@@ -145,7 +146,8 @@ syntax match hyUnquote "\~@"
 syntax match hyMeta "\^"
 syntax match hyDeref "@"
 syntax match hyDispatch "\v#[\^'=<_@]"
-syntax match hyTagMacro "\v(#[^ \['=<_\^\*\"{@!]+)"
+syntax match hyTagMacro "\v#[^ \(\['=<_\^\*\"{@!]+"
+syntax match hyTagMacro "\v#\ze[({]"
 syntax match hyUnpack "\v(#[\*]|[\*\*])"
 " hy permits no more than 20 params.
 syntax match hyAnonArg "%\(20\|1\d\|[1-9]\|&\)\?"
@@ -189,10 +191,9 @@ syntax keyword hyCommentTodo contained FIXME XXX TODO FIXME: XXX: TODO:
 syntax match hyComment ";.*$" contains=hyCommentTodo,@Spell
 syntax match hyComment "\%^#!.*$"
 
-syntax region hySexp   matchgroup=hyParen start="("  matchgroup=hyParen end=")"  contains=TOP,@Spell
-syntax region hyVector matchgroup=hyParen start="\[" matchgroup=hyParen end="\]" contains=TOP,@Spell
-syntax region hyMap    matchgroup=hyParen start="{"  matchgroup=hyParen end="}"  contains=TOP,@Spell
-syntax region hySet    matchgroup=hyParen start="#{"  matchgroup=hyParen end="}"  contains=TOP,@Spell
+syntax region hySexp   matchgroup=hyParen    start="("  end=")"  contains=TOP,@Spell
+syntax region hyVector matchgroup=hyParen    start="\[" end="\]" contains=TOP,@Spell
+syntax region hyMap    matchgroup=hyParen    start="{"  end="}"  contains=TOP,@Spell
 
 " Highlight superfluous closing parens, brackets and braces.
 syntax match hyError "]\|}\|)"
@@ -226,13 +227,13 @@ highlight default link hyRegexpQuote               hyRegexpBoundary
 highlight default link hyVariable      Identifier
 highlight default link hyConditional   Conditional
 highlight default link hyDefine        Define
-highlight default link hyAsync        Define
+highlight default link hyAsync         Define
 highlight default link hyErrorHandling Exception
 highlight default link hyException     Type
 highlight default link hyBuiltin       Function
 highlight default link hyPythonBuiltin Function
 highlight default link hyAnaphoric     Macro
-highlight default link hyTagMacro     Macro
+highlight default link hyTagMacro      Macro
 highlight default link hyRepeat        Repeat
 highlight default link hyOpNoInplace   Operator
 highlight default link hyOpInplace     Operator
@@ -248,7 +249,7 @@ highlight default link hyMeta      SpecialChar
 highlight default link hyDeref     SpecialChar
 highlight default link hyAnonArg   SpecialChar
 highlight default link hyDispatch  SpecialChar
-highlight default link hyUnpack  SpecialChar
+highlight default link hyUnpack    SpecialChar
 
 highlight default link hyComment     Comment
 highlight default link hyCommentTodo Todo

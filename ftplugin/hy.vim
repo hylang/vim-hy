@@ -9,7 +9,7 @@ endif
 
 " Start with Clojure ftplugin
 runtime! ftplugin/clojure.vim
-set iskeyword-=.
+setlocal iskeyword-=.
 
 " Use two semicolons: The Hy style guide recommends a single semicolon for
 " margin comments only.
