@@ -11,6 +11,9 @@ endif
 runtime! ftplugin/clojure.vim
 setlocal iskeyword-=.
 
+" Add some hy-specific lispwords
+setlocal lispwords+=match
+
 " Use two semicolons: The Hy style guide recommends a single semicolon for
 " margin comments only.
 setlocal commentstring=;;\ %s
