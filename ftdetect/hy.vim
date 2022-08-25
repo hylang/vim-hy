@@ -1,8 +1,8 @@
-au BufRead,BufNewFile  *.hy set filetype=hy
+au BufRead,BufNewFile  *.hy setf hy
 
 fun! s:DetectHyShebang()
     if getline(1) =~# '^#!.*/bin/env\s\+hy\>'
-        set ft=hy
+        setf hy
     endif
 endfun
 
