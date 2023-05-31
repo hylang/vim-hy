@@ -125,15 +125,18 @@ syntax match hyDefine /\v[(]@<=def(ault)@!\S+/
 syntax match hyOpNoInplace "\M\<\(=\|!=\|.\|,\|->\|->>\|as->\)\>"
 syntax match hyOpInplace "\M\<\(!\|%\|&\|*\|**\|+\|-\|/\|//\|<\|<<\|>\|>>\|^\||\)=\?\>"
 
-let s:radix_chars = "0123456789abcdefghijklmnopqrstuvwxyz"
-for s:radix in range(2, 36)
-    execute 'syntax match hyNumber "\v\c<[-+]?' . s:radix . 'r[' . strpart(s:radix_chars, 0, s:radix) . ']+>"'
-endfor
-unlet! s:radix_chars s:radix
-
-syntax match hyNumber "\v<[-+]?%(0\o*|0x\x+|[1-9]\d*)N?>"
-syntax match hyNumber "\v<[-+]?%(0|[1-9]\d*|%(0|[1-9]\d*)\.\d*)%(M|[eE][-+]?\d+)?>"
-syntax match hyNumber "\v<[-+]?%(0|[1-9]\d*)/%(0|[1-9]\d*)>"
+" Number highlighting taken from vim's syntax/python.vim,
+" but modified to allow leading 0
+syntax match hyNumber "\<0[oO]\%(_\=\o\)\+\>"
+syntax match hyNumber "\<0[xX]\%(_\=\x\)\+\>"
+syntax match hyNumber "\<0[bB]\%(_\=[01]\)\+\>"
+syntax match hyNumber "\<\%([0-9]\%(_\=\d\)*\|0\+\%(_\=0\)*\)\>"
+syntax match hyNumber "\<\d\%(_\=\d\)*[jJ]\>"
+syntax match hyNumber "\<\d\%(_\=\d\)*[eE][+-]\=\d\%(_\=\d\)*[jJ]\=\>"
+syntax match hyNumber
+            \ "\<\d\%(_\=\d\)*\.\%([eE][+-]\=\d\%(_\=\d\)*\)\=[jJ]\=\%(\W\|$\)\@="
+syntax match hyNumber
+            \ "\%(^\|\W\)\zs\%(\d\%(_\=\d\)*\)\=\.\d\%(_\=\d\)*\%([eE][+-]\=\d\%(_\=\d\)*\)\=[jJ]\=\>"
 
 syntax match hyVarArg "&"
 
