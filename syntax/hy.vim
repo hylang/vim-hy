@@ -13,8 +13,6 @@ endif
 
 let b:current_syntax = "hy"
 
-" hy version 1.0 alpha
-syntax keyword hyAsync \a
 syntax keyword hyAnaphoric ap-if ap-each ap-each-while ap-map ap-map-when
             \ ap-filter ap-reject ap-dotimes ap-first ap-last ap-reduce ap-pipe
             \ ap-compose
