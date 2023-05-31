@@ -12,7 +12,7 @@ runtime! ftplugin/clojure.vim
 setlocal iskeyword-=.
 
 " Add some hy-specific lispwords
-setlocal lispwords+=match
+setlocal lispwords+=match,except,unless
 
 " Use two semicolons: The Hy style guide recommends a single semicolon for
 " margin comments only.

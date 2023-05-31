@@ -16,6 +16,9 @@ endif
 runtime! indent/clojure.vim
 
 if exists("*searchpairpos")
+  if !exists('g:hy_special_indent_words')
+    let g:hy_special_indent_words = ''
+  endif
 
   function! GetHyIndent()
     let l:clojure_align_multiline_strings = g:clojure_align_multiline_strings
@@ -25,7 +28,7 @@ if exists("*searchpairpos")
     else
       let g:clojure_align_multiline_strings = g:hy_align_multiline_strings
     endif
-    let g:clojure_special_indent_words = ''
+    let g:clojure_special_indent_words = g:hy_special_indent_words
     try
       let l:ret = GetClojureIndent()
     finally
