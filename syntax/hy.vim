@@ -191,6 +191,8 @@ syntax match hyComment "\%^#!.*$"
 syntax region hySexp   matchgroup=hyParen    start="("  end=")"  contains=TOP,@Spell
 syntax region hyVector matchgroup=hyParen    start="\[" end="\]" contains=TOP,@Spell
 syntax region hyMap    matchgroup=hyParen    start="{"  end="}"  contains=TOP,@Spell
+syntax region hySet    matchgroup=hyParen    start="#{" end="}"  contains=TOP,@Spell
+syntax region hyTuple  matchgroup=hyParen    start="#(" end=")"  contains=TOP,@Spell
 
 " Highlight superfluous closing parens, brackets and braces.
 syntax match hyError "]\|}\|)"
