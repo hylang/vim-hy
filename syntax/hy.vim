@@ -80,13 +80,13 @@ syntax keyword hySpecial
             \ self
 
 syntax keyword hyMisc
-            \ eval eval-and-compile eval-when-compile
-            \ eval-and-read eval-when-read
+            \ eval
+            \ eval-and-compile eval-when-compile do-mac
             \ apply kwapply
 
 syntax keyword hyErrorHandling except try throw raise catch finally assert
 
-syntax keyword hyInclude import require
+syntax keyword hyInclude import require export
 
 " Not used at this moment
 "syntax keyword hyVariable
@@ -136,18 +136,14 @@ syntax match hyNumber
 syntax match hyNumber
             \ "\%(^\|\W\)\zs\%(\d\%(_\=\d\)*\)\=\.\d\%(_\=\d\)*\%([eE][+-]\=\d\%(_\=\d\)*\)\=[jJ]\=\>"
 
-syntax match hyVarArg "&"
-
 syntax match hyQuote "'"
 syntax match hyQuote "`"
 syntax match hyUnquote "\~"
 syntax match hyUnquote "\~@"
-syntax match hyMeta "\^"
-syntax match hyDeref "@"
-syntax match hyDispatch "\v#[\^'=<_@]"
-syntax match hyTagMacro "\v#[^ ()[\]'=<_^*\"{}@!]+"
-syntax match hyTagMacro "\v#\ze[({]"
-syntax match hyUnpack "\v(#[\*]|[\*\*])"
+syntax match hyTagMacro "\v#[[:keyword:].]+"
+syntax match hyDispatch "\v#[\^]"
+syntax match hyDispatch "\v#_>"
+syntax match hyUnpack "\v#(\*|\*\*)"
 " hy permits no more than 20 params.
 syntax match hyAnonArg "%\(20\|1\d\|[1-9]\|&\)\?"
 
