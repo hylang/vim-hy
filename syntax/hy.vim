@@ -140,10 +140,12 @@ syntax match hyQuote "'"
 syntax match hyQuote "`"
 syntax match hyUnquote "\~"
 syntax match hyUnquote "\~@"
-syntax match hyTagMacro "\v#[[:keyword:].]+"
-syntax match hyDispatch "\v#[\^]"
+syntax match hyTagMacro "\v#[^:][[:keyword:].]*"
+syntax match hyDispatch "\v#[\^/]"
 syntax match hyDispatch "\v#_>"
 syntax match hyUnpack "\v#(\*|\*\*)"
+syntax match hyKeywordMacro "\v#[=+!-]:\k*" contains=hyKeywordMacroKeyword
+syntax match hyKeywordMacroKeyword "\v:\k*" contained
 " hy permits no more than 20 params.
 syntax match hyAnonArg "%\(20\|1\d\|[1-9]\|&\)\?"
 
@@ -229,6 +231,8 @@ highlight default link hyBuiltin       Function
 highlight default link hyPythonBuiltin Function
 highlight default link hyAnaphoric     Macro
 highlight default link hyTagMacro      Macro
+highlight default link hyKeywordMacro  Macro
+highlight default link hyKeywordMacroKeyword Identifier
 highlight default link hyRepeat        Repeat
 highlight default link hyOpNoInplace   Operator
 highlight default link hyOpInplace     Operator
