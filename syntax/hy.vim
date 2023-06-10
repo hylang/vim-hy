@@ -143,7 +143,7 @@ syntax match hyUnquote "\~@"
 syntax match hyTagMacro "\v#[^:][[:keyword:].]*"
 syntax match hyDispatch "\v#[\^/]"
 syntax match hyDispatch "\v#_>"
-syntax match hyUnpack "\v#(\*|\*\*)"
+syntax match hyUnpack "\v#\*{1,2}"
 syntax match hyKeywordMacro "\v#[=+!-]:\k*" contains=hyKeywordMacroKeyword
 syntax match hyKeywordMacroKeyword "\v:\k*" contained
 " hy permits no more than 20 params.
