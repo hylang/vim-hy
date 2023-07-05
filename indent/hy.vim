@@ -21,13 +21,13 @@ if exists("*searchpairpos")
   endif
 
   function! GetHyIndent()
+    let prev_line = synIDattr(synID(v:lnum-1, col([v:lnum-1,"$"])-1, 0), "name")
+    if prev_line == "hyString" || prev_line == "hyStringEscape"
+      return indent(v:lnum-1)
+    endif
     let l:clojure_align_multiline_strings = g:clojure_align_multiline_strings
     let l:clojure_special_indent_words = g:clojure_special_indent_words
-    if exists('g:hy_align_multiline_strings')
-      let g:clojure_align_multiline_strings = 1
-    else
-      let g:clojure_align_multiline_strings = g:hy_align_multiline_strings
-    endif
+    let g:clojure_align_multiline_strings = g:->get('hy_align_multiline_strings', 1)
     let g:clojure_special_indent_words = g:hy_special_indent_words
     try
       let l:ret = GetClojureIndent()

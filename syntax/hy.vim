@@ -99,7 +99,7 @@ syntax keyword hyInclude import require export
 "   * Must not contain any reader metacharacters except for ' and #
 syntax match hyKeyword "\v<:{1,2}%([^ \n\r\t()\[\]{}";@^`~\\%/]+/)*[^ \n\r\t()\[\]{}";@^`~\\%/]+:@<!>"
 
-syntax match hyStringEscape "\v\\%([\\btnfr"]|u\x{4}|[0-3]\o{2}|\o{1,2})" contained
+syntax match hyStringEscape "\v\\%([\\abfnrtv'"]|[0-3]\o{2}|\o{1,2}|x\x{2}|u\x{4}|U\x{8}|N\{[^}]*\})" contained
 
 syntax region hyString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=hyStringEscape
 syntax region hyString start="#\[\[" skip=/\\\\\|\\"/ end="\]\]" contains=hyStringEscape
@@ -205,7 +205,7 @@ highlight default link hyCharacter    Character
 highlight default link hyKeyword      Keyword
 highlight default link hyNumber       Number
 highlight default link hyString       String
-highlight default link hyStringEscape Character
+highlight default link hyStringEscape Special
 
 highlight default link hyRegexp                    Constant
 highlight default link hyRegexpEscape              Character
