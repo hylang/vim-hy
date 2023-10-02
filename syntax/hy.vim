@@ -21,7 +21,7 @@ syntax keyword hyBuiltin
             \ and assoc block block-ret butlast chain chainc coll? constantly
             \ count cut dec del doc distinct doto drop-last filter flatten get
             \ is is-not is_not islice let list-n map of or quasiquote quote
-            \ range reduce rest setv slice tee unquote unquote-splice xor zip
+            \ range reduce rest setv setx slice tee unquote unquote-splice xor zip
 
 " Derived from vim's python syntax file
 syntax keyword hyPythonBuiltin
