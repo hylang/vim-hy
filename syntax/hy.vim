@@ -14,14 +14,25 @@ endif
 let b:current_syntax = "hy"
 
 syntax keyword hyAnaphoric ap-if ap-each ap-each-while ap-map ap-map-when
-            \ ap-filter ap-reject ap-dotimes ap-first ap-last ap-reduce ap-pipe
-            \ ap-compose
+            \ ap-filter ap-reject ap-dotimes ap-first ap-last ap-reduce
+            \ ap-when ap-with
 
+" as of hy 1.0.0
 syntax keyword hyBuiltin
-            \ and assoc block block-ret butlast chain chainc coll? constantly
-            \ count cut dec del doc distinct doto drop-last filter flatten get
-            \ is is-not is_not islice let list-n map of or quasiquote quote
-            \ range reduce rest setv setx slice tee unquote unquote-splice xor zip
+            \ annotate as-model chainc del dfor gensym get-macro gfor let lfor
+            \ local-macros macroexpand macroexpand-1 mangle py pys quasiquote
+            \ quote read read-many repr repr-register setv setx sfor unmangle
+            \ unpack-iterable unpack-mapping unquote unquote-splice
+
+" as of hyrule 0.6.0
+syntax keyword hyHyruleBuiltin
+            \ ameth assoc block butlast cfor coll?  comment constantly dec
+            \ defmacro!  defmacro-kwargs defmain defn+ defn/a+ defseq dict=:
+            \ distinct do-n doto drop-last end-sequence flatten fn+ fn/a+
+            \ import-path inc let+ list-n macroexpand-all map-model
+            \ match-fn-params meth ncut parse-args pformat postwalk pp pprint
+            \ prewalk profile/calls profile/cpu readable?  recursive?  rest
+            \ saferepr seq setv+ sign smacrolet thru walk with-gensyms xor
 
 " Derived from vim's python syntax file
 syntax keyword hyPythonBuiltin
@@ -34,6 +45,8 @@ syntax keyword hyPythonBuiltin
             \ str sum super tuple type vars zip --package-- __package__
             \ --import-- __import__ --all-- __all__ --doc-- __doc__ --name--
             \ __name__
+
+syntax keyword hyAsync await
 
 syntax keyword hyBoolean True False
 
@@ -54,39 +67,20 @@ syntax keyword hyException ArithmeticError AssertionError AttributeError
             \ BytesWarning IndentationError ResourceWarning TabError
 
 syntax keyword hyStatement
-            \ return
-            \ break continue
-            \ do progn
-            \ print
-            \ yield yield-from
-            \ with with* with/a
-            \ with-gensyms
-            \ global nonlocal
-            \ not
-            \ in not-in
-            \ lambda fn
+            \ break continue do fn global nonlocal return with yield
 
-syntax keyword hyRepeat
-            \ loop recur for for*
-            \ while
+syntax keyword hyRepeat loop for while
 
 syntax keyword hyConditional
-            \ if lif else
-            \ unless when
-            \ cond branch ebranch case ecase
-            \ match
+            \ branch case cond ebranch ecase else if lif match unless when
 
-syntax keyword hySpecial
-            \ self
+syntax keyword hySpecial self
 
-syntax keyword hyMisc
-            \ eval
-            \ eval-and-compile eval-when-compile do-mac
-            \ apply kwapply
+syntax keyword hyMisc do-mac eval eval-and-compile eval-when-compile pragma
 
-syntax keyword hyErrorHandling except try throw raise catch finally assert
+syntax keyword hyErrorHandling assert except except* finally raise try
 
-syntax keyword hyInclude import require export
+syntax keyword hyInclude export import require
 
 " Not used at this moment
 "syntax keyword hyVariable
@@ -120,8 +114,8 @@ syntax match hySymbol "\v%([a-zA-Z!$&*_+=|<.>?-]|[^\x00-\x7F])+%(:?%([a-zA-Z0-9!
 " for any custom def-* macros
 syntax match hyDefine /\v[(]@<=def(ault)@!\S+/
 
-syntax match hyOpNoInplace "\M\<\(=\|!=\|.\|,\|->\|->>\|as->\)\>"
-syntax match hyOpInplace "\M\<\(!\|%\|&\|*\|**\|+\|-\|/\|//\|<\|<<\|>\|>>\|^\||\)=\?\>"
+syntax match hyOpNoInplace "\M\<\(=\|!=\|.\|,\|->\|->>\|as->\|some->\)\>"
+syntax match hyOpInplace "\M\<\(!\|%\|&\|*\|**\|+\|-\|/\|//\|<\|<<\|>\|>>\|^\||\|and\|bnot\|cut\|get\|in\|is\|is-not\|not\|not-in\|or\|of\)=\?\>"
 
 " Number highlighting taken from vim's syntax/python.vim,
 " but modified to allow leading 0
@@ -140,7 +134,7 @@ syntax match hyQuote "'"
 syntax match hyQuote "`"
 syntax match hyUnquote "\~"
 syntax match hyUnquote "\~@"
-syntax match hyTagMacro "\v#[^:[][[:keyword:].]*"
+syntax match hyReaderMacro "\v#[^:[][[:keyword:].]*"
 syntax match hyDispatch "\v#[\^/]"
 syntax match hyDispatch "\v#_>"
 syntax match hyUnpack "\v#\*{1,2}"
@@ -230,9 +224,10 @@ highlight default link hyAsync         Define
 highlight default link hyErrorHandling Exception
 highlight default link hyException     Type
 highlight default link hyBuiltin       Function
+highlight default link hyHyruleBuiltin Function
 highlight default link hyPythonBuiltin Function
 highlight default link hyAnaphoric     Macro
-highlight default link hyTagMacro      Macro
+highlight default link hyReaderMacro   Macro
 highlight default link hyKeywordMacro  Macro
 highlight default link hyKeywordMacroKeyword Identifier
 highlight default link hyRepeat        Repeat
@@ -327,12 +322,12 @@ endfor
 if get(g:, "hy_conceal_fancy", 0) == 1
 	syntax match hyAnonVar "\<x[0-9]\+\>" contains=hyAnonVarName,hyAnonVarIndex
 	syntax keyword hyAnonVar xi conceal cchar=ξ
-	syntax match hyTagMacro "#%" conceal cchar=ξ
+	syntax match hyReaderMacro "#%" conceal cchar=ξ
 else
 	syntax match hyAnonVarIndex "i" conceal cchar=¡ contained
-	syntax match hyTagMacro contained "#" conceal cchar=x
+	syntax match hyReaderMacro contained "#" conceal cchar=x
 	syntax match hyAnonArg contained "%" conceal cchar=¡
-    syntax match hyTagMacro "#%" contains=hyTagMacro,hyAnonArg
+    syntax match hyReaderMacro "#%" contains=hyReaderMacro,hyAnonArg
 	syntax match hyAnonVar "\<x[0-9i]\+\>" contains=hyAnonVarName,hyAnonVarIndex
 endif
 
