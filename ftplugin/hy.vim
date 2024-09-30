@@ -18,7 +18,7 @@ setlocal iskeyword-=.
 setlocal lispwords=let,if,when,while,for,lfor,dfor,gfor,sfor,with,match,try,
 			\defn,fn,defmacro,defreader,defclass,except,except*
 "
-" Hyrule listwords:
+" Hyrule lispwords:
 " http://hylang.org/hyrule/doc/v0.6.0
 " same rule as above
 setlocal lispwords+=ap-if,ap-each,ap-each-while,ap-dotimes,ap-when,ap-with,
