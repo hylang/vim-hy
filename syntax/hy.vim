@@ -96,7 +96,7 @@ syntax match hyKeyword "\v<:{1,2}%([^ \n\r\t()\[\]{}";@^`~\\%/]+/)*[^ \n\r\t()\[
 syntax match hyStringEscape "\v\\%([\\abfnrtv'"]|[0-3]\o{2}|\o{1,2}|x\x{2}|u\x{4}|U\x{8}|N\{[^}]*\})" contained
 
 syntax region hyString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=hyStringEscape
-syntax region hyString start="#\[\[" skip=/\\\\\|\\"/ end="\]\]" contains=hyStringEscape
+syntax region hyString start="#\[\z(.\{-}\)\[" skip="#" end="\]\z1\]" contains=hyString keepend
 
 syntax match hyCharacter "\\."
 syntax match hyCharacter "\\o\%([0-3]\o\{2\}\|\o\{1,2\}\)"
