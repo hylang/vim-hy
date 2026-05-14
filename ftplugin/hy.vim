@@ -19,13 +19,13 @@ setlocal lispwords=let,if,when,while,for,lfor,dfor,gfor,sfor,with,match,try,
 			\defn,fn,defmacro,defreader,defclass,except,except*
 "
 " Hyrule lispwords:
-" http://hylang.org/hyrule/doc/v0.6.0
+" http://hylang.org/hyrule/doc/v1.0.0
 " same rule as above
 setlocal lispwords+=ap-if,ap-each,ap-each-while,ap-dotimes,ap-when,ap-with,
 			\->,->>,as->,some->,doto,block,branch,case,cfor,
 			\defmain,do-n,ebranch,ecase,list-n,loop,unless,defn+,
-			\defn/a+,fn+,fn/a+,let+,defmacro-kwargs,defmacro!,
-			\with-gensyms,seq,defseq,smacrolet
+			\fn+,let+,defmacro-kwargs,defmacro!,lif,ncut,setv+,
+			\seq,defseq,smacrolet,ameth,meth
 
 " Use two semicolons: The Hy style guide recommends a single semicolon for
 " margin comments only.
