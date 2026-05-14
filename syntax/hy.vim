@@ -17,22 +17,23 @@ syntax keyword hyAnaphoric ap-if ap-each ap-each-while ap-map ap-map-when
             \ ap-filter ap-reject ap-dotimes ap-first ap-last ap-reduce
             \ ap-when ap-with
 
-" as of hy 1.0.0
+" as of Hy 1.2.0
 syntax keyword hyBuiltin
             \ annotate as-model chainc del dfor gensym get-macro gfor let lfor
             \ local-macros macroexpand macroexpand-1 mangle py pys quasiquote
             \ quote read read-many repr repr-register setv setx sfor unmangle
             \ unpack-iterable unpack-mapping unquote unquote-splice
 
-" as of hyrule 0.6.0
+" as of Hyrule 1.0.1
 syntax keyword hyHyruleBuiltin
-            \ ameth assoc block butlast cfor coll?  comment constantly dec
-            \ defmacro!  defmacro-kwargs defmain defn+ defn/a+ defseq dict=:
-            \ distinct do-n doto drop-last end-sequence flatten fn+ fn/a+
+            \ ameth assoc block butlast cfor coll? comment constantly dec
+            \ defmacro! defmacro-kwargs defmain defn+ defseq dict=:
+            \ distinct do-n doto drop-last end-sequence flatten fn+
             \ import-path inc let+ list-n macroexpand-all map-model
-            \ match-fn-params meth ncut parse-args pformat postwalk pp pprint
-            \ prewalk profile/calls profile/cpu readable?  recursive?  rest
-            \ saferepr seq setv+ sign smacrolet thru walk with-gensyms xor
+            \ match-fn-params meth ncut parse-args pformat pp pprint
+            \ readable? recursive? recur rest saferepr seq setv+ sign
+            \ smacrolet thru xor
+            \ def-gensyms
 
 " Derived from vim's python syntax file
 syntax keyword hyPythonBuiltin
