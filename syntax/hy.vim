@@ -46,6 +46,18 @@ syntax keyword hyPythonBuiltin
             \ --import-- __import__ --all-- __all__ --doc-- __doc__ --name--
             \ __name__
 
+" Common toolz functions (https://toolz.readthedocs.io)
+syntax keyword hyToolzBuiltin
+            \ accumulate assoc assoc-in complement compose compose-left concat
+            \ concatv cons count countby curry diff dissoc drop excepts
+            \ filterfalse first flip frequencies get get-in groupby identity
+            \ interleave interpose isdistinct isiterable iterate itemfilter
+            \ itemmap juxt join keyfilter keymap last mapcat memoize merge
+            \ merge-sorted merge-with nth partition partition-all partitionby
+            \ peek peekn pipe pluck random-sample reduce reduceby remove rest
+            \ second sliding-window tail take take-nth thread-first thread-last
+            \ topk unique update-in valfilter valmap zip-longest
+
 syntax keyword hyAsync await
 
 syntax keyword hyBoolean True False
@@ -226,6 +238,7 @@ highlight default link hyException     Type
 highlight default link hyBuiltin       Function
 highlight default link hyHyruleBuiltin Function
 highlight default link hyPythonBuiltin Function
+highlight default link hyToolzBuiltin Function
 highlight default link hyAnaphoric     Macro
 highlight default link hyReaderMacro   Macro
 highlight default link hyKeywordMacro  Macro
