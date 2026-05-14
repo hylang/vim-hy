@@ -46,6 +46,12 @@ syntax keyword hyPythonBuiltin
             \ --import-- __import__ --all-- __all__ --doc-- __doc__ --name--
             \ __name__
 
+" Common functools (https://docs.python.org/3/library/functools.html)
+syntax keyword hyFunctoolsBuiltin
+            \ partial lru-cache cache cached-property total-ordering wraps
+            \ update-wrapper cmp-to-key singledispatch singledispatchmethod
+            \ partialmethod recursive-repr
+
 syntax keyword hyAsync await
 
 syntax keyword hyBoolean True False
@@ -226,6 +232,7 @@ highlight default link hyException     Type
 highlight default link hyBuiltin       Function
 highlight default link hyHyruleBuiltin Function
 highlight default link hyPythonBuiltin Function
+highlight default link hyFunctoolsBuiltin Function
 highlight default link hyAnaphoric     Macro
 highlight default link hyReaderMacro   Macro
 highlight default link hyKeywordMacro  Macro
